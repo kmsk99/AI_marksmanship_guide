@@ -2,7 +2,7 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
 
-export { Webcam } from './utils/webcam';
+import * as webcam from './utils/webcam.ts';
 const URL = "./my_model/";
 // 초기 값 설정
 let model,
