@@ -1,6 +1,8 @@
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
+
+export { Webcam } from './utils/webcam';
 const URL = "./my_model/";
 // 초기 값 설정
 let model,
@@ -25,11 +27,7 @@ async function init() {
     const size = 400;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    await webcam.setup({
-        options: MediaTrackConstraints = {
-            facingMode: 'environment'
-        }
-    }); // request access to the webcam
+    await webcam.setup(); // request access to the webcam
     await webcam.play();
     window.requestAnimationFrame(loop);
 

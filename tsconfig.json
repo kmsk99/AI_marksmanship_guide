@@ -12,7 +12,7 @@
         "skipLibCheck": true
     },
     "include": [
-        "src\\utils\\webcam.ts"
+        "src/utils/webcam.ts"
     ],
     "exclude": [
         "node_modules",
