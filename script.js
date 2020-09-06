@@ -25,10 +25,6 @@ async function init() {
     const size = 400;
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    
-    Webcam.set('constraints',{
-        facingMode: "environment"
-    });
     await webcam.setup(); // request access to the webcam
     await webcam.play();
     window.requestAnimationFrame(loop);
