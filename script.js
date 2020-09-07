@@ -127,7 +127,7 @@ async function init() {
 }
 
 async function loop(timestamp) {
-    var videoE = document.querySelector('video');
+    var videoElement = document.querySelector('video');
     await predict();
     window.requestAnimationFrame(loop);
 }
@@ -135,7 +135,7 @@ async function loop(timestamp) {
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
-    const {pose, posenetOutput} = await model.estimatePose(videoE, false);
+    const {pose, posenetOutput} = await model.estimatePose(videoElement, false);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
@@ -182,7 +182,7 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-videoE.addEventListener('play', function () {
+videoElement.addEventListener('play', function () {
     var $this = this;
     (function loop() {
         if (!$this.paused && !$this.ended) {
@@ -193,8 +193,8 @@ videoE.addEventListener('play', function () {
 }, 0);
 
 function drawPose(pose) {
-    if (videoE) {
-        context.drawImage(videoE, 0, 0, 400, 400);
+    if (videoElement) {
+        context.drawImage(videoElement, 0, 0, 400, 400);
         // draw the keypoints and skeleton
         if (pose) {
             const minPartConfidence = 0.5;
