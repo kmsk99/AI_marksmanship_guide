@@ -5,6 +5,8 @@
     margin: 0 auto;
   }
 
-/* #videoInput {
-  display: none;
-} */
+#video {
+  height: 0px;
+  width: 0px;
+  overflow:hidden;
+}

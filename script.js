@@ -40,10 +40,9 @@ function gotDevices(deviceInfos) {
     for (const deviceInfo of deviceInfos) {
         const option = document.createElement('option');
         option.value = deviceInfo.deviceId;
-        // if (deviceInfo.kind === 'audioinput') {
-        //     option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
-        //     audioSelect.appendChild(option);
-        // } else 
+        // if (deviceInfo.kind === 'audioinput') {     option.text = deviceInfo.label ||
+        // `Microphone ${audioSelect.length + 1}`;     audioSelect.appendChild(option);
+        // } else
         if (deviceInfo.kind === 'videoinput') {
             option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
             videoSelect.appendChild(option);
@@ -63,13 +62,8 @@ function getStream() {
     // const audioSource = audioSelect.value;
     const videoSource = videoSelect.value;
     const constraints = {
-        // audio: {
-        //     deviceId: audioSource
-        //         ? {
-        //             exact: audioSource
-        //         }
-        //         : undefined
-        // },
+        // audio: {     deviceId: audioSource         ? {             exact: audioSource
+        // }         : undefined },
         video: {
             deviceId: videoSource
                 ? {
@@ -87,9 +81,8 @@ function getStream() {
 
 function gotStream(stream) {
     window.stream = stream; // make stream available to console
-    // audioSelect.selectedIndex = [...audioSelect.options].findIndex(
-    //     option => option.text === stream.getAudioTracks()[0].label
-    // );
+    // audioSelect.selectedIndex = [...audioSelect.options].findIndex(     option =>
+    // option.text === stream.getAudioTracks()[0].label );
     videoSelect.selectedIndex = [...videoSelect.options].findIndex(
         option => option.text === stream.getVideoTracks()[0].label
     );
@@ -140,14 +133,31 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
-    for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction = prediction[i].className + ": " + prediction[i]
-            .probability
-            .toFixed(2);
-        labelContainer
-            .childNodes[i]
-            .innerHTML = classPrediction;
-    }
+    // for (let i = 0; i < maxPredictions; i++) {     const classPrediction =
+    // prediction[i].className + ": " + prediction[i]         .probability
+    // .toFixed(2);     labelContainer         .childNodes[i]         .innerHTML =
+    // classPrediction; }
+    labelContainer
+        .childNodes[0]
+        .innerHTML = "엎드려 쏴: " + prediction[0]
+        .probability
+        .toFixed(2) * 100 + "%";
+    labelContainer
+        .childNodes[1]
+        .innerHTML = "다리 구부러짐: " + prediction[1]
+        .probability
+        .toFixed(2) * 100 + "%";
+    labelContainer
+        .childNodes[2]
+        .innerHTML = "오른다리 넓어짐: " + prediction[2]
+        .probability
+        .toFixed(2) * 100 + "%";
+    labelContainer
+        .childNodes[3]
+        .innerHTML = "다리 좁음: " + prediction[3]
+        .probability
+        .toFixed(2) * 100 + "%";
+
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
         if (status == "bend" || status == "right" || status == "narrow") {
