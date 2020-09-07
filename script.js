@@ -226,10 +226,15 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-// videoElement.addEventListener('play', function () {     var $this = this;
-// (function loop() {         if (!$this.paused && !$this.ended) {
-// context.drawImage($this, 0, 0, 400, 400);             setTimeout(loop, 1000 /
-// 30);         }     })(); }, 0);
+videoElement.addEventListener('play', function () {
+    var $this = this;
+    (function loop() {
+        if (!$this.paused && !$this.ended) {
+            context.drawImage($this, 0, 0, 400, 400);
+            setTimeout(loop, 1000 / 30);
+        }
+    })();
+}, 0);
 
 function drawPose(pose) {
     if (videoElement) {
