@@ -125,11 +125,23 @@ async function loop(timestamp) {
     window.requestAnimationFrame(loop);
 }
 
+var canvas1 = document.getElementById('canvas');
+var context = canvas1.getContext('2d');
+var videoInput = document.getElementById('videoInput');
+videoInput.addEventListener('play', function () {
+   var $this = this;
+   (function loop() {
+      if (!$this.paused && !$this.ended) {
+         context.drawImage($this, 0, 0);
+         setTimeout(loop, 1000 / 30);
+      }
+   })();
+}, 0);
+
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
-    var videoInput = document.getElementById("videoInput")
-    const {pose, posenetOutput} = await model.estimatePose(videoInput, false);
+    const {pose, posenetOutput} = await model.estimatePose(canvas1, false);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
