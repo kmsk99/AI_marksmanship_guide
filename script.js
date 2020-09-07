@@ -101,7 +101,7 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     // Convenience function to setup a webcam
-    const size = 400;
+    // const size = 400;
     // const flip = true; // whether to flip the webcam
     // webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
     // await webcam.setup(); // request access to the webcam
@@ -109,10 +109,10 @@ async function init() {
     // window.requestAnimationFrame(loop);
 
     // append/get elements to the DOM
-    const canvas = document.getElementById("canvas");
-    canvas.width = size;
-    canvas.height = size;
-    ctx = canvas.getContext("2d");
+    // const canvas = document.getElementById("canvas");
+    // canvas.width = size;
+    // canvas.height = size;
+    // ctx = canvas.getContext("2d");
     labelContainer = document.getElementById("label-container");
     for (let i = 0; i < maxPredictions; i++) { // and class labels
         labelContainer.appendChild(document.createElement("div"));
