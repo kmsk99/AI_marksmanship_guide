@@ -19,4 +19,5 @@
 .w3-container {
     height: 40px;
     white-space: nowrap;
+    vertical-align: middle;
 }
