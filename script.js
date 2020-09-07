@@ -2,6 +2,20 @@
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
 
+let video = document.getElementById("#videoInput"); // video is the id of video tag
+navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+    .then(function(stream) {
+        video.srcObject = stream;
+        video.play();
+    })
+    .catch(function(err) {
+        console.log("An error occurred! " + err);
+    });
+
+
+
+
+
 const URL = "./my_model/";
 // 초기 값 설정
 let model,
@@ -54,6 +68,18 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
+    for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction = prediction[i].className + ": " + prediction[i]
+            .probability
+            .toFixed(2);
+        labelContainer
+            .childNodes[i]
+            .innerHTML = classPrediction;
+    }
+    // finally draw the poses
+    drawPose(pose);
+
+    // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
         if (status == "bend" || status == "right" || status == "narrow") {
             status = "prone";
@@ -83,16 +109,6 @@ async function predict() {
         }
         status = "narrow"
     }
-    for (let i = 0; i < maxPredictions; i++) {
-        const classPrediction = prediction[i].className + ": " + prediction[i]
-            .probability
-            .toFixed(2);
-        labelContainer
-            .childNodes[i]
-            .innerHTML = classPrediction;
-    }
-    // finally draw the poses
-    drawPose(pose);
 }
 
 function drawPose(pose) {
