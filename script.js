@@ -119,11 +119,16 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     window.requestAnimationFrame(loop);
-    
+
     labelContainer = document.getElementById("label-container");
     for (let i = 0; i < maxPredictions; i++) { // and class labels
         labelContainer.appendChild(document.createElement("div"));
     }
+}
+
+async function loop(timestamp) {
+    await predict();
+    window.requestAnimationFrame(loop);
 }
 
 async function predict() {
@@ -142,43 +147,58 @@ async function predict() {
             .innerHTML = classPrediction;
     }
     // finally draw the poses drawPose(pose); 음성으로 행동 말해주기
-    if (prediction[0].probability.toFixed(2) >= 0.99) {
-        if (status == "bend" || status == "right" || status == "narrow") {
-            status = "prone";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "prone";
-    } else if (prediction[1].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "right" || status == "narrow") {
-            status = "bend";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "bend"
-    } else if (prediction[2].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "bend" || status == "narrow") {
-            status = "right";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "right"
-    } else if (prediction[3].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "right" || status == "bend") {
-            status = "narrow";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "narrow"
-    }
+    // if (prediction[0].probability.toFixed(2) >= 0.99) {
+    //     if (status == "bend" || status == "right" || status == "narrow") {
+    //         status = "prone";
+    //         var audio = new Audio(status + '.mp3');
+    //         audio.play();
+    //     }
+    //     status = "prone";
+    // } else if (prediction[1].probability.toFixed(2) >= 0.99) {
+    //     if (status == "prone" || status == "right" || status == "narrow") {
+    //         status = "bend";
+    //         var audio = new Audio(status + '.mp3');
+    //         audio.play();
+    //     }
+    //     status = "bend"
+    // } else if (prediction[2].probability.toFixed(2) >= 0.99) {
+    //     if (status == "prone" || status == "bend" || status == "narrow") {
+    //         status = "right";
+    //         var audio = new Audio(status + '.mp3');
+    //         audio.play();
+    //     }
+    //     status = "right"
+    // } else if (prediction[3].probability.toFixed(2) >= 0.99) {
+    //     if (status == "prone" || status == "right" || status == "bend") {
+    //         status = "narrow";
+    //         var audio = new Audio(status + '.mp3');
+    //         audio.play();
+    //     }
+    //     status = "narrow"
+    // }
+    drawPose(pose);
 }
 
-// var canvas1 = document.getElementById('canvas'); var context =
-// canvas1.getContext('2d'); videoInput.addEventListener('play', function () {
-// var $this = this;     (function loop() {         if (!$this.paused &&
-// !$this.ended) {             context.drawImage($this, 0, 0, 400, 400);
-// setTimeout(loop, 1000 / 30);         }     })(); }, 0); function
-// drawPose(pose) {      draw the keypoints and skeleton     if (pose) {
-// const minPartConfidence = 0.5;         tmPose.drawKeypoints(pose.keypoints,
-// minPartConfidence, context);         tmPose.drawSkeleton(pose.keypoints,
-// minPartConfidence, context);     } }
+var canvas1 = document.getElementById('canvas');
+var context = canvas1.getContext('2d');
+videoElement.addEventListener('play', function () {
+    var $this = this;
+    (function loop() {
+        if (!$this.paused && !$this.ended) {
+            context.drawImage($this, 0, 0, 400, 400);
+            setTimeout(loop, 1000 / 30);
+        }
+    })();
+}, 0);
+
+function drawPose(pose) {
+    if (videoElement) {
+        context.drawImage(videoElement, 0, 0, 400, 400);
+        // draw the keypoints and skeleton
+        if (pose) {
+            const minPartConfidence = 0.5;
+            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
+            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
+        }
+    }
+}
