@@ -151,7 +151,7 @@ async function predict() {
             parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
         );
         $(".container2").html(
-            "오른다리 넓어짐: " + 
+            "오른다리 일직선: " + 
             parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
         );
         $(".container3").css(
@@ -159,7 +159,7 @@ async function predict() {
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
         $(".container3").html(
-            "다리 좁음: " + 
+            "왼다리 넓게: " + 
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
     });
