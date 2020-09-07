@@ -113,7 +113,35 @@ async function loop(timestamp) {
 }
 
 var checkStatus = setTimeout(function () {
-    statusBefore = status;
+    if (prediction[0].probability.toFixed(2) >= 0.99) {
+        if (status == "bend" || status == "right" || status == "narrow") {
+            status = "prone";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+        status = "prone";
+    } else if (prediction[1].probability.toFixed(2) >= 0.99) {
+        if (status == "prone" || status == "right" || status == "narrow") {
+            status = "bend";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+        status = "bend"
+    } else if (prediction[2].probability.toFixed(2) >= 0.99) {
+        if (status == "prone" || status == "bend" || status == "narrow") {
+            status = "right";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+        status = "right"
+    } else if (prediction[3].probability.toFixed(2) >= 0.99) {
+        if (status == "prone" || status == "right" || status == "bend") {
+            status = "narrow";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+        status = "narrow"
+    }
 }, 1000);
 
 async function predict() {
@@ -155,37 +183,6 @@ async function predict() {
     });
 
     // 음성으로 행동 말해주기
-    if (statusBefore == status) {
-        if (prediction[0].probability.toFixed(2) >= 0.99) {
-            if (status == "bend" || status == "right" || status == "narrow") {
-                status = "prone";
-                var audio = new Audio(status + '.mp3');
-                audio.play();
-            }
-            status = "prone";
-        } else if (prediction[1].probability.toFixed(2) >= 0.99) {
-            if (status == "prone" || status == "right" || status == "narrow") {
-                status = "bend";
-                var audio = new Audio(status + '.mp3');
-                audio.play();
-            }
-            status = "bend"
-        } else if (prediction[2].probability.toFixed(2) >= 0.99) {
-            if (status == "prone" || status == "bend" || status == "narrow") {
-                status = "right";
-                var audio = new Audio(status + '.mp3');
-                audio.play();
-            }
-            status = "right"
-        } else if (prediction[3].probability.toFixed(2) >= 0.99) {
-            if (status == "prone" || status == "right" || status == "bend") {
-                status = "narrow";
-                var audio = new Audio(status + '.mp3');
-                audio.play();
-            }
-            status = "narrow"
-        }
-    }
     drawPose(pose);
 }
 
