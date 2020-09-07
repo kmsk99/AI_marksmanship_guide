@@ -26,59 +26,81 @@ var videoSelect = document.querySelector('select#videoSource');
 audioSelect.onchange = getStream;
 videoSelect.onchange = getStream;
 
-getStream().then(getDevices).then(gotDevices);
+getStream()
+    .then(getDevices)
+    .then(gotDevices);
 
 function getDevices() {
-  // AFAICT in Safari this only gets default devices until gUM is called :/
-  return navigator.mediaDevices.enumerateDevices();
+    // AFAICT in Safari this only gets default devices until gUM is called :/
+    return navigator
+        .mediaDevices
+        .enumerateDevices();
 }
 
 function gotDevices(deviceInfos) {
-  window.deviceInfos = deviceInfos; // make available to console
-  console.log('Available input and output devices:', deviceInfos);
-  for (const deviceInfo of deviceInfos) {
-    const option = document.createElement('option');
-    option.value = deviceInfo.deviceId;
-    if (deviceInfo.kind === 'audioinput') {
-      option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
-      audioSelect.appendChild(option);
-    } else if (deviceInfo.kind === 'videoinput') {
-      option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
-      videoSelect.appendChild(option);
+    window.deviceInfos = deviceInfos; // make available to console
+    console.log('Available input and output devices:', deviceInfos);
+    for (const deviceInfo of deviceInfos) {
+        const option = document.createElement('option');
+        option.value = deviceInfo.deviceId;
+        if (deviceInfo.kind === 'audioinput') {
+            option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
+            audioSelect.appendChild(option);
+        } else if (deviceInfo.kind === 'videoinput') {
+            option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
+            videoSelect.appendChild(option);
+        }
     }
-  }
 }
 
 function getStream() {
-  if (window.stream) {
-    window.stream.getTracks().forEach(track => {
-      track.stop();
-    });
-  }
-  const audioSource = audioSelect.value;
-  const videoSource = videoSelect.value;
-  const constraints = {
-    audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
-    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
-  };
-  return navigator.mediaDevices.getUserMedia(constraints).
-    then(gotStream).catch(handleError);
+    if (window.stream) {
+        window
+            .stream
+            .getTracks()
+            .forEach(track => {
+                track.stop();
+            });
+    }
+    const audioSource = audioSelect.value;
+    const videoSource = videoSelect.value;
+    const constraints = {
+        audio: {
+            deviceId: audioSource
+                ? {
+                    exact: audioSource
+                }
+                : undefined
+        },
+        video: {
+            deviceId: videoSource
+                ? {
+                    exact: videoSource
+                }
+                : undefined
+        }
+    };
+    return navigator
+        .mediaDevices
+        .getUserMedia(constraints)
+        .then(gotStream)
+        .catch(handleError);
 }
 
 function gotStream(stream) {
-  window.stream = stream; // make stream available to console
-  audioSelect.selectedIndex = [...audioSelect.options].
-    findIndex(option => option.text === stream.getAudioTracks()[0].label);
-  videoSelect.selectedIndex = [...videoSelect.options].
-    findIndex(option => option.text === stream.getVideoTracks()[0].label);
-  videoElement.srcObject = stream;
+    window.stream = stream; // make stream available to console
+    audioSelect.selectedIndex = [...audioSelect.options].findIndex(
+        option => option.text === stream.getAudioTracks()[0].label
+    );
+    videoSelect.selectedIndex = [...videoSelect.options].findIndex(
+        option => option.text === stream.getVideoTracks()[0].label
+    );
+    videoElement.srcObject = stream;
 }
 
 function handleError(error) {
-  console.error('Error: ', error);
+    console.error('Error: ', error);
 }
-
-
 
 const URL = "./my_model/";
 // 초기 값 설정
@@ -100,19 +122,12 @@ async function init() {
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
-    // Convenience function to setup a webcam
-    // const size = 400;
-    // const flip = true; // whether to flip the webcam
-    // webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
-    // await webcam.setup(); // request access to the webcam
-    // await webcam.play();
-    // window.requestAnimationFrame(loop);
-
-    // append/get elements to the DOM
-    // const canvas = document.getElementById("canvas");
-    // canvas.width = size;
-    // canvas.height = size;
-    // ctx = canvas.getContext("2d");
+    // Convenience function to setup a webcam const size = 400; const flip = true;
+    // whether to flip the webcam webcam = new tmPose.Webcam(size, size, flip);
+    // width, height, flip await webcam.setup();  request access to the webcam await
+    // webcam.play(); window.requestAnimationFrame(loop); append/get elements to the
+    // DOM const canvas = document.getElementById("canvas"); canvas.width = size;
+    // canvas.height = size; ctx = canvas.getContext("2d");
     labelContainer = document.getElementById("label-container");
     for (let i = 0; i < maxPredictions; i++) { // and class labels
         labelContainer.appendChild(document.createElement("div"));
@@ -120,12 +135,10 @@ async function init() {
 }
 
 async function loop(timestamp) {
-    // webcam.update(); // update the webcam frame
+    // webcam.update();  update the webcam frame
     await predict();
     window.requestAnimationFrame(loop);
 }
-
-
 
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
@@ -180,24 +193,22 @@ async function predict() {
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
 var videoInput = document.getElementById('videoInput');
-// videoInput.addEventListener('play', function () {
-//    var $this = this;
-//    (function loop() {
-//       if (!$this.paused && !$this.ended) {
-//          context.drawImage($this, 0, 0, 400, 400);
-//          setTimeout(loop, 1000 / 30);
-//       }
-//    })();
-// }, 0);
+videoInput.addEventListener('play', function () {
+    var $this = this;
+    (function loop() {
+        if (!$this.paused && !$this.ended) {
+            context.drawImage($this, 0, 0, 400, 400);
+            setTimeout(loop, 1000 / 30);
+        }
+    })();
+}, 0);
 
 function drawPose(pose) {
-    if (videoInput) {
-        context.drawImage(videoInput, 0, 0);
-        // draw the keypoints and skeleton
-        if (pose) {
-            const minPartConfidence = 0.5;
-            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
-            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
-        }
+    // draw the keypoints and skeleton
+    if (pose) {
+        const minPartConfidence = 0.5;
+        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
+        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
+
     }
 }
