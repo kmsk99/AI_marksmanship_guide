@@ -10,6 +10,15 @@
     width: 100%;
     text-align: center;
     font-size: 15px;
+    line-height: 1;
+}
+
+.starting>p {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    line-height: 1;
 }
 
 #video {
