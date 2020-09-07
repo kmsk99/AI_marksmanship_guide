@@ -5,6 +5,12 @@
     margin: 0 auto;
 }
 
+.starting {
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+}
+
 #video {
     height: 0;
     width: 0;
