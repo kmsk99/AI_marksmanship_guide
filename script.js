@@ -47,11 +47,11 @@ var canvas = document.getElementById('canvasIn'),
 })();
 
 var gum = mode => navigator
-    .mediaDevices
+    .navigator
     .getUserMedia({
         video: {
             facingMode: {
-                exact: mode
+                ideal: mode
             }
         }
     })
