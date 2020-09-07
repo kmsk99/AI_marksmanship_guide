@@ -128,7 +128,8 @@ async function loop(timestamp) {
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
-    const {pose, posenetOutput} = await model.estimatePose(videoElement);
+    var videoInput = document.getElementById("videoInput")
+    const {pose, posenetOutput} = await model.estimatePose(videoInput);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
