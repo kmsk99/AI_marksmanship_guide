@@ -1,63 +1,84 @@
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
-var canvas = document.getElementById('canvasIn'),
-    context = canvas.getContext('2d'),
-    video = document.getElementById('videoIn'),
-    loger = document.getElementById('loger');
+/*
+Copyright 2017 Google Inc.
 
-(function () {
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-    navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
+    http://www.apache.org/licenses/LICENSE-2.0
 
-    var gum = mode => navigator
-        .getMedia({
-            video: {
-                facingMode: {
-                    ideal: mode
-                }
-            },
-            audio: false
-        }, function (stream) {
-            video.srcObject = stream;
-            video.play();
-        }, function (error) {
-            // an error occurred
-        })
-        .catch(e => log(e));
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
-    video.addEventListener('play', function () {
-        draw(this, context, 500, 500);
-    }, false);
+'use strict';
 
-    function draw(video, context, width, height) {
-        var image,
-            data,
-            i,
-            r,
-            g,
-            b,
-            brightness;
+var videoElement = document.querySelector('video');
+var audioSelect = document.querySelector('select#audioSource');
+var videoSelect = document.querySelector('select#videoSource');
 
-        context.drawImage(video, 0, 0, width, height);
+audioSelect.onchange = getStream;
+videoSelect.onchange = getStream;
 
-        image = context.getImageData(0, 0, width, height);
-        data = image.data;
-        image.data = data;
+getStream().then(getDevices).then(gotDevices);
 
-        context.putImageData(image, 0, 0);
+function getDevices() {
+  // AFAICT in Safari this only gets default devices until gUM is called :/
+  return navigator.mediaDevices.enumerateDevices();
+}
 
-        setTimeout(draw, 10, video, context, width, height);
+function gotDevices(deviceInfos) {
+  window.deviceInfos = deviceInfos; // make available to console
+  console.log('Available input and output devices:', deviceInfos);
+  for (const deviceInfo of deviceInfos) {
+    const option = document.createElement('option');
+    option.value = deviceInfo.deviceId;
+    if (deviceInfo.kind === 'audioinput') {
+      option.text = deviceInfo.label || `Microphone ${audioSelect.length + 1}`;
+      audioSelect.appendChild(option);
+    } else if (deviceInfo.kind === 'videoinput') {
+      option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
+      videoSelect.appendChild(option);
     }
+  }
+}
 
-})();
+function getStream() {
+  if (window.stream) {
+    window.stream.getTracks().forEach(track => {
+      track.stop();
+    });
+  }
+  const audioSource = audioSelect.value;
+  const videoSource = videoSelect.value;
+  const constraints = {
+    audio: {deviceId: audioSource ? {exact: audioSource} : undefined},
+    video: {deviceId: videoSource ? {exact: videoSource} : undefined}
+  };
+  return navigator.mediaDevices.getUserMedia(constraints).
+    then(gotStream).catch(handleError);
+}
 
-var stop = () => video.srcObject && video
-    .srcObject
-    .getTracks()
-    .forEach(t => t.stop());
+function gotStream(stream) {
+  window.stream = stream; // make stream available to console
+  audioSelect.selectedIndex = [...audioSelect.options].
+    findIndex(option => option.text === stream.getAudioTracks()[0].label);
+  videoSelect.selectedIndex = [...videoSelect.options].
+    findIndex(option => option.text === stream.getVideoTracks()[0].label);
+  videoElement.srcObject = stream;
+}
 
-var log = msg => loger.innerHTML += msg + "<br>";
+function handleError(error) {
+  console.error('Error: ', error);
+}
+
+
 
 const URL = "./my_model/";
 // 초기 값 설정
