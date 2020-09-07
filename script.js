@@ -21,25 +21,6 @@
         // an error occurred
     });
 
-    var gum = mode => navigator
-        .mediaDevices
-        .getUserMedia({
-            video: {
-                facingMode: {
-                    exact: mode
-                }
-            }
-        })
-        .then(stream => (video.srcObject = stream))
-        .catch(e => log(e));
-
-    var stop = () => video.srcObject && video
-        .srcObject
-        .getTracks()
-        .forEach(t => t.stop());
-
-    var log = msg => div.innerHTML += msg + "<br>";
-
     video.addEventListener('play', function () {
         draw(this, context, 500, 500);
     }, false);
@@ -65,6 +46,26 @@
     }
 
 })();
+
+
+var gum = mode => navigator
+.mediaDevices
+.getUserMedia({
+    video: {
+        facingMode: {
+            exact: mode
+        }
+    }
+})
+.then(stream => (video.srcObject = stream))
+.catch(e => log(e));
+
+var stop = () => video.srcObject && video
+.srcObject
+.getTracks()
+.forEach(t => t.stop());
+
+var log = msg => div.innerHTML += msg + "<br>";
 
 const URL = "./my_model/";
 // 초기 값 설정
