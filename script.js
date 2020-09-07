@@ -6,7 +6,8 @@
 
     var canvas = document.getElementById('canvas'),
         context = canvas.getContext('2d'),
-        video = document.getElementById('video')
+        video = document.getElementById('video'),
+        vendorUrl = window.URL || window.webkitURL;
 
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
 
@@ -14,7 +15,7 @@
         video: true,
         audio: false
     }, function (stream) {
-        video.src = URL.createObjectURL(stream);
+        video.src = window.URL.createObjectURL(stream);
         video.play();
     }, function (error) {
         // an error occurred
