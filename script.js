@@ -1,13 +1,12 @@
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
+var canvas = document.getElementById('canvasIn'),
+    context = canvas.getContext('2d'),
+    video = document.getElementById('videoIn'),
+    vendorUrl = window.URL || window.webkitURL;
 
 (function () {
-
-    var canvas = document.getElementById('canvasIn'),
-        context = canvas.getContext('2d'),
-        video = document.getElementById('videoIn'),
-        vendorUrl = window.URL || window.webkitURL;
 
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
 
@@ -47,23 +46,22 @@
 
 })();
 
-
 var gum = mode => navigator
-.mediaDevices
-.getUserMedia({
-    video: {
-        facingMode: {
-            exact: mode
+    .mediaDevices
+    .getUserMedia({
+        video: {
+            facingMode: {
+                exact: mode
+            }
         }
-    }
-})
-.then(stream => (video.srcObject = stream))
-.catch(e => log(e));
+    })
+    .then(stream => (video.srcObject = stream))
+    .catch(e => log(e));
 
 var stop = () => video.srcObject && video
-.srcObject
-.getTracks()
-.forEach(t => t.stop());
+    .srcObject
+    .getTracks()
+    .forEach(t => t.stop());
 
 var log = msg => div.innerHTML += msg + "<br>";
 
