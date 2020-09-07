@@ -114,10 +114,9 @@ async function init() {
 
     window.requestAnimationFrame(loop);
 
-    // labelContainer = document.getElementById("label-container");
-    // for (let i = 0; i < maxPredictions; i++) { // and class labels
-    //     labelContainer.appendChild(document.createElement("div"));
-    // }
+    // labelContainer = document.getElementById("label-container"); for (let i = 0;
+    // i < maxPredictions; i++) {  and class labels
+    // labelContainer.appendChild(document.createElement("div")); }
 }
 
 async function loop(timestamp) {
@@ -139,9 +138,16 @@ async function predict() {
     // classPrediction; }
 
     $(document).ready(function () {
-        $(".container0").css("width", "30%");
+        $(".container0").css(
+            "width",
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container0").html(
+            "정자세: " + 
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+        );
     });
-    
+
     labelContainer
         .childNodes[0]
         .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
