@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <title>Pose</title>
+        <title>Shooting Pose</title>
         <link rel="stylesheet" href="main.css">
     </head>
     <body>
@@ -14,24 +13,21 @@
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous"></script>
         <!-- 이름 -->
-        <div>올바른 사격 자세</div>
+        <header><h1>올바른 사격 자세</h1></header>
         <!-- 비디오 -->
         <div id="container">
 
-            <!-- <div class="select">
-                <label for="audioSource">Audio source:
-                </label>
-                <select id="audioSource"></select>
-            </div> -->
+            <!-- <div class="select"> <label for="audioSource">Audio source: </label>
+            <select id="audioSource"></select> </div> -->
 
             <div class="select">
-                <label for="videoSource">Video source:
+                <label for="videoSource">카메라 선택:
                 </label>
                 <select id="videoSource"></select>
             </div>
 
-        <!-- 스타트 버튼 -->
-        <button type="button" onclick="init()">측정 시작</button>
+            <!-- 스타트 버튼 -->
+            <button type="button" onclick="init()">측정 시작</button>
 
             <video id="video" autoplay="autoplay" muted="muted" playsinline="playsinline"></video>
 

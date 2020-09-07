@@ -20,8 +20,10 @@ var videoElement = document.querySelector('video');
 // var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
 
+
 // audioSelect.onchange = getStream;
 videoSelect.onchange = getStream;
+
 
 getStream()
     .then(getDevices)
