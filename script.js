@@ -159,7 +159,7 @@ async function predict() {
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
         $(".container3").html(
-            "왼다리 넓게: " + 
+            "다리 좁음: " + 
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
     });
