@@ -4,3 +4,7 @@
     border: 10px solid #ddd;
     margin: 0 auto;
   }
+
+#videoIn {
+  display: none;
+}

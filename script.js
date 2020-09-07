@@ -12,7 +12,11 @@
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
 
     navigator.getMedia({
-        video: true,
+        video: {
+            facingMode: {
+                ideal: "environment"
+            }
+        },
         audio: false
     }, function (stream) {
         video.srcObject = stream;
@@ -22,7 +26,7 @@
     });
 
     video.addEventListener('play', function () {
-        draw(this, context, 1024, 768);
+        draw(this, context, 600, 600);
     }, false);
 
     function draw(video, context, width, height) {
