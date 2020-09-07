@@ -10,15 +10,21 @@ var canvas = document.getElementById('canvasIn'),
 
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
 
-    navigator.getMedia({
-        video: true,
-        audio: false
-    }, function (stream) {
-        video.srcObject = stream;
-        video.play();
-    }, function (error) {
-        // an error occurred
-    });
+    var gum = mode => navigator
+        .getMedia({
+            video: {
+                facingMode: {
+                    ideal: mode
+                }
+            },
+            audio: false
+        }, function (stream) {
+            video.srcObject = stream;
+            video.play();
+        }, function (error) {
+            // an error occurred
+        })
+        .catch(e => log(e));
 
     video.addEventListener('play', function () {
         draw(this, context, 500, 500);
@@ -45,18 +51,6 @@ var canvas = document.getElementById('canvasIn'),
     }
 
 })();
-
-var gum = mode => navigator
-    .navigator
-    .getUserMedia({
-        video: {
-            facingMode: {
-                ideal: mode
-            }
-        }
-    })
-    .then(stream => (video.srcObject = stream))
-    .catch(e => log(e));
 
 var stop = () => video.srcObject && video
     .srcObject
