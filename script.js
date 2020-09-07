@@ -141,7 +141,7 @@ async function predict() {
     // classPrediction; }
     labelContainer
         .childNodes[0]
-        .innerHTML = "엎드려 쏴: " + prediction[0]
+        .innerHTML = "정자세: " + prediction[0]
         .probability
         .toFixed(2) * 100 + "%";
     labelContainer
@@ -195,15 +195,15 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-videoElement.addEventListener('play', function () {
-    var $this = this;
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-            context.drawImage($this, 0, 0, 400, 400);
-            setTimeout(loop, 1000 / 30);
-        }
-    })();
-}, 0);
+// videoElement.addEventListener('play', function () {
+//     var $this = this;
+//     (function loop() {
+//         if (!$this.paused && !$this.ended) {
+//             context.drawImage($this, 0, 0, 400, 400);
+//             setTimeout(loop, 1000 / 30);
+//         }
+//     })();
+// }, 0);
 
 function drawPose(pose) {
     if (videoElement) {
