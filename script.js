@@ -22,7 +22,7 @@
     });
 
     video.addEventListener('play', function () {
-        draw(this, context, 400, 400);
+        draw(this, context, 1024, 768);
     }, false);
 
     function draw(video, context, width, height) {
@@ -38,16 +38,6 @@
 
         image = context.getImageData(0, 0, width, height);
         data = image.data;
-
-        for (i = 0; i < data.length; i += 4) {
-            r = data[i];
-            g = data[i + 1];
-            b = data[i + 2];
-            brightness = (r + g + b) / 3;
-
-            data[i] = data[i + 1] = data[i + 2] = brightness;
-        }
-
         image.data = data;
 
         context.putImageData(image, 0, 0);
