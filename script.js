@@ -162,7 +162,7 @@ async function predict() {
             $({countNum: 0}).animate({
                 countNum: percentage
             }, {
-                duration: 2000,
+                duration: 0,
                 easing: 'linear',
                 step: function () {
                     // What todo on every count
