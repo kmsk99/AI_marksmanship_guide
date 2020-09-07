@@ -114,9 +114,6 @@ async function init() {
 
     window.requestAnimationFrame(loop);
 
-    // labelContainer = document.getElementById("label-container"); for (let i = 0;
-    // i < maxPredictions; i++) {  and class labels
-    // labelContainer.appendChild(document.createElement("div")); }
 }
 
 async function loop(timestamp) {
@@ -131,15 +128,6 @@ async function predict() {
     const {pose, posenetOutput} = await model.estimatePose(videoElement, false);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
-
-// for (let i = 0; i < maxPredictions; i++) {
-//     const classPrediction = prediction[i].className + ": " + prediction[i]
-//         .probability
-//         .toFixed(2);
-//     labelContainer
-//         .childNodes[i]
-//         .innerHTML = classPrediction;
-// }
 
     $(document).ready(function () {
         $(".container0").css(
@@ -175,24 +163,6 @@ async function predict() {
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
     });
-
-    // labelContainer
-    //     .childNodes[0]
-    //     .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
-    //             "%";
-    // labelContainer
-    //     .childNodes[1]
-    //     .innerHTML = "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) +
-    //             "%";
-    // labelContainer
-    //     .childNodes[2]
-    //     .innerHTML = "오른다리 넓어짐: " + parseInt(
-    //         prediction[2].probability.toFixed(2) * 100
-    //     ) + "%";
-    // labelContainer
-    //     .childNodes[3]
-    //     .innerHTML = "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) +
-    //             "%";
 
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
