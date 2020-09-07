@@ -112,7 +112,49 @@ async function loop(timestamp) {
     window.requestAnimationFrame(loop);
 }
 
-var checkStatus = setTimeout(function () {
+async function predict() {
+    // Prediction #1: run input through posenet estimatePose can take in an image,
+    // video or canvas html element
+    const {pose, posenetOutput} = await model.estimatePose(videoElement, false);
+    // Prediction 2: run input through teachable machine classification model
+    const prediction = await model.predict(posenetOutput);
+
+    $(document).ready(function () {
+        $(".container0").css(
+            "width",
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container0").html(
+            "정자세: " + 
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container1").css(
+            "width",
+            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container1").html(
+            "다리 구부러짐: " + 
+            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container2").css(
+            "width",
+            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container2").html(
+            "오른다리 일직선: " + 
+            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container3").css(
+            "width",
+            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container3").html(
+            "다리 좁음: " + 
+            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+        );
+    });
+
+    // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
         if (status == "bend" || status == "right" || status == "narrow") {
             status = "prone";
@@ -142,47 +184,6 @@ var checkStatus = setTimeout(function () {
         }
         status = "narrow"
     }
-}, 1000);
-
-async function predict() {
-    // Prediction #1: run input through posenet estimatePose can take in an image,
-    // video or canvas html element
-    const {pose, posenetOutput} = await model.estimatePose(videoElement, false);
-    // Prediction 2: run input through teachable machine classification model
-    const prediction = await model.predict(posenetOutput);
-
-    $(document).ready(function () {
-        $(".container0").css(
-            "width",
-            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container0").html(
-            "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container1").css(
-            "width",
-            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container1").html(
-            "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container2").css(
-            "width",
-            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container2").html(
-            "오른다리 일직선: " + parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container3").css(
-            "width",
-            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
-        );
-        $(".container3").html(
-            "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
-        );
-    });
-
-    // 음성으로 행동 말해주기
     drawPose(pose);
 }
 
