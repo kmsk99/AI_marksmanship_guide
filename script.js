@@ -114,10 +114,10 @@ async function init() {
 
     window.requestAnimationFrame(loop);
 
-    labelContainer = document.getElementById("label-container");
-    for (let i = 0; i < maxPredictions; i++) { // and class labels
-        labelContainer.appendChild(document.createElement("div"));
-    }
+    // labelContainer = document.getElementById("label-container");
+    // for (let i = 0; i < maxPredictions; i++) { // and class labels
+    //     labelContainer.appendChild(document.createElement("div"));
+    // }
 }
 
 async function loop(timestamp) {
@@ -137,6 +137,11 @@ async function predict() {
     // prediction[i].className + ": " + prediction[i]         .probability
     // .toFixed(2);     labelContainer         .childNodes[i]         .innerHTML =
     // classPrediction; }
+
+    $(document).ready(function () {
+        $(".container0").css("width", "30%");
+    });
+    
     labelContainer
         .childNodes[0]
         .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
@@ -154,23 +159,6 @@ async function predict() {
         .childNodes[3]
         .innerHTML = "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) +
                 "%";
-
-    $(document).ready(function () {
-        $('.bar-percentage[value]').each(function () {
-            var progress = $(this);
-            var percentage = Math.ceil($(this).attr('value'));
-            var pct = Math.floor(percentage) + '%';
-            progress.text(pct) && progress
-                .siblings()
-                .children()
-                .css('width', pct);
-        });
-
-        $("#bar-1").val() = parseInt(prediction[0].probability.toFixed(2) * 100);
-        $("#bar-2").val() = parseInt(prediction[1].probability.toFixed(2) * 100);
-        $("#bar-3").val() = parseInt(prediction[2].probability.toFixed(2) * 100);
-        $("#bar-4").val() = parseInt(prediction[3].probability.toFixed(2) * 100);
-    });
 
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
@@ -207,10 +195,15 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-// videoElement.addEventListener('play', function () {     var $this = this;
-// (function loop() {         if (!$this.paused && !$this.ended) {
-// context.drawImage($this, 0, 0, 400, 400);             setTimeout(loop, 1000 /
-// 30);         }     })(); }, 0);
+videoElement.addEventListener('play', function () {
+    var $this = this;
+    (function loop() {
+        if (!$this.paused && !$this.ended) {
+            context.drawImage($this, 0, 0, 400, 400);
+            setTimeout(loop, 1000 / 30);
+        }
+    })();
+}, 0);
 
 function drawPose(pose) {
     if (videoElement) {
