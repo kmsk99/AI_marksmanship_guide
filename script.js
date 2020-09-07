@@ -1,6 +1,3 @@
-// More API functions here:
-// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
-// the link to your model provided by Teachable Machine export panel 경로
 /*
 Copyright 2017 Google Inc.
 
@@ -102,6 +99,10 @@ function handleError(error) {
     console.error('Error: ', error);
 }
 
+// More API functions here:
+// https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
+// the link to your model provided by Teachable Machine export panel 경로
+
 const URL = "./my_model/";
 // 초기 값 설정
 let model,
@@ -134,15 +135,13 @@ async function init() {
     }
 }
 
-async function loop(timestamp) {
-    // webcam.update();  update the webcam frame
-    await predict();
-    window.requestAnimationFrame(loop);
-}
+// async function loop(timestamp) {      webcam.update();  update the webcam
+// frame     await predict();     window.requestAnimationFrame(loop); }
 
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
+    var videoInput = document.getElementById('videoInput');
     const {pose, posenetOutput} = await model.estimatePose(canvas1, false);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
@@ -155,10 +154,7 @@ async function predict() {
             .childNodes[i]
             .innerHTML = classPrediction;
     }
-    // finally draw the poses
-    drawPose(pose);
-
-    // 음성으로 행동 말해주기
+    // finally draw the poses drawPose(pose); 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
         if (status == "bend" || status == "right" || status == "narrow") {
             status = "prone";
@@ -190,25 +186,12 @@ async function predict() {
     }
 }
 
-var canvas1 = document.getElementById('canvas');
-var context = canvas1.getContext('2d');
-var videoInput = document.getElementById('videoInput');
-videoInput.addEventListener('play', function () {
-    var $this = this;
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-            context.drawImage($this, 0, 0, 400, 400);
-            setTimeout(loop, 1000 / 30);
-        }
-    })();
-}, 0);
-
-function drawPose(pose) {
-    // draw the keypoints and skeleton
-    if (pose) {
-        const minPartConfidence = 0.5;
-        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
-        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
-
-    }
-}
+// var canvas1 = document.getElementById('canvas'); var context =
+// canvas1.getContext('2d'); videoInput.addEventListener('play', function () {
+// var $this = this;     (function loop() {         if (!$this.paused &&
+// !$this.ended) {             context.drawImage($this, 0, 0, 400, 400);
+// setTimeout(loop, 1000 / 30);         }     })(); }, 0); function
+// drawPose(pose) {      draw the keypoints and skeleton     if (pose) {
+// const minPartConfidence = 0.5;         tmPose.drawKeypoints(pose.keypoints,
+// minPartConfidence, context);         tmPose.drawSkeleton(pose.keypoints,
+// minPartConfidence, context);     } }
