@@ -4,7 +4,7 @@
 var canvas = document.getElementById('canvasIn'),
     context = canvas.getContext('2d'),
     video = document.getElementById('videoIn'),
-    vendorUrl = window.URL || window.webkitURL;
+    loger = document.getElementById('loger');
 
 (function () {
 
@@ -63,7 +63,7 @@ var stop = () => video.srcObject && video
     .getTracks()
     .forEach(t => t.stop());
 
-var log = msg => div.innerHTML += msg + "<br>";
+var log = msg => loger.innerHTML += msg + "<br>";
 
 const URL = "./my_model/";
 // 초기 값 설정
