@@ -42,7 +42,7 @@ header {
 }
 
 h3 {
-    font-family: 'GungsuhChe' !important;
+    font-family: 'GungsuhChe', 'Gungsuh', '궁서체', '궁서' !important;
     font-size: 40px !important;
     text-align: center;
     color: darkblue;
