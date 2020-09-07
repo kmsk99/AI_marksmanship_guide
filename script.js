@@ -20,10 +20,8 @@ var videoElement = document.querySelector('video');
 // var audioSelect = document.querySelector('select#audioSource');
 var videoSelect = document.querySelector('select#videoSource');
 
-
 // audioSelect.onchange = getStream;
 videoSelect.onchange = getStream;
-
 
 getStream()
     .then(getDevices)
@@ -160,6 +158,39 @@ async function predict() {
         .probability
         .toFixed(2) * 100 + "%";
 
+    $(document).ready(function () {
+        $('.bar-percentage[value]').each(function () {
+            var progress = $(this);
+            var percentage = Math.ceil($(this).attr('value'));
+            $({countNum: 0}).animate({
+                countNum: percentage
+            }, {
+                duration: 2000,
+                easing: 'linear',
+                step: function () {
+                    // What todo on every count
+                    var pct = Math.floor(this.countNum) + '%';
+                    progress.text(pct) && progress
+                        .siblings()
+                        .children()
+                        .css('width', pct);
+                }
+            });
+        });
+        $("#bar-1").val() = prediction[0]
+            .probability
+            .toFixed(2) * 100;
+        $("#bar-2").val() = prediction[1]
+            .probability
+            .toFixed(2) * 100;
+        $("#bar-3").val() = prediction[2]
+            .probability
+            .toFixed(2) * 100;
+        $("#bar-4").val() = prediction[3]
+            .probability
+            .toFixed(2) * 100;
+    });
+
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
         if (status == "bend" || status == "right" || status == "narrow") {
@@ -195,15 +226,10 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-// videoElement.addEventListener('play', function () {
-//     var $this = this;
-//     (function loop() {
-//         if (!$this.paused && !$this.ended) {
-//             context.drawImage($this, 0, 0, 400, 400);
-//             setTimeout(loop, 1000 / 30);
-//         }
-//     })();
-// }, 0);
+// videoElement.addEventListener('play', function () {     var $this = this;
+// (function loop() {         if (!$this.paused && !$this.ended) {
+// context.drawImage($this, 0, 0, 400, 400);             setTimeout(loop, 1000 /
+// 30);         }     })(); }, 0);
 
 function drawPose(pose) {
     if (videoElement) {
