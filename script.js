@@ -13,7 +13,9 @@
 
     navigator.getMedia({
         video: {
-            facingMode: "environment"
+            facingMode: {
+                exact: "environment"
+            }
         },
         audio: false
     }, function (stream) {
