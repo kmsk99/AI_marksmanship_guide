@@ -125,18 +125,7 @@ async function loop(timestamp) {
     window.requestAnimationFrame(loop);
 }
 
-var canvas1 = document.getElementById('canvas');
-var context = canvas1.getContext('2d');
-var videoInput = document.getElementById('videoInput');
-videoInput.addEventListener('play', function () {
-   var $this = this;
-   (function loop() {
-      if (!$this.paused && !$this.ended) {
-         context.drawImage($this, 0, 0, 400, 400);
-         setTimeout(loop, 1000 / 30);
-      }
-   })();
-}, 0);
+
 
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
@@ -154,7 +143,7 @@ async function predict() {
             .innerHTML = classPrediction;
     }
     // finally draw the poses
-    // drawPose(pose);
+    drawPose(pose);
 
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
@@ -188,14 +177,27 @@ async function predict() {
     }
 }
 
-// function drawPose(pose) {
-//     if (webcam.canvas) {
-//         ctx.drawImage(webcam.canvas, 0, 0);
-//         // draw the keypoints and skeleton
-//         if (pose) {
-//             const minPartConfidence = 0.5;
-//             tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-//             tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
-//         }
-//     }
-// }
+var canvas1 = document.getElementById('canvas');
+var context = canvas1.getContext('2d');
+var videoInput = document.getElementById('videoInput');
+// videoInput.addEventListener('play', function () {
+//    var $this = this;
+//    (function loop() {
+//       if (!$this.paused && !$this.ended) {
+//          context.drawImage($this, 0, 0, 400, 400);
+//          setTimeout(loop, 1000 / 30);
+//       }
+//    })();
+// }, 0);
+
+function drawPose(pose) {
+    if (videoInput) {
+        context.drawImage(videoInput, 0, 0);
+        // draw the keypoints and skeleton
+        if (pose) {
+            const minPartConfidence = 0.5;
+            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
+            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
+        }
+    }
+}
