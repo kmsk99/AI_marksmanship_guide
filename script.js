@@ -132,7 +132,7 @@ videoInput.addEventListener('play', function () {
    var $this = this;
    (function loop() {
       if (!$this.paused && !$this.ended) {
-         context.drawImage($this, 0, 0);
+         context.drawImage($this, 0, 0, 500, 500);
          setTimeout(loop, 1000 / 30);
       }
    })();
