@@ -139,24 +139,21 @@ async function predict() {
     // classPrediction; }
     labelContainer
         .childNodes[0]
-        .innerHTML = "정자세: " + prediction[0]
-        .probability
-        .toFixed(2) * 100 + "%";
+        .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
+                "%";
     labelContainer
         .childNodes[1]
-        .innerHTML = "다리 구부러짐: " + prediction[1]
-        .probability
-        .toFixed(2) * 100 + "%";
+        .innerHTML = "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) +
+                "%";
     labelContainer
         .childNodes[2]
-        .innerHTML = "오른다리 넓어짐: " + prediction[2]
-        .probability
-        .toFixed(2) * 100 + "%";
+        .innerHTML = "오른다리 넓어짐: " + parseInt(
+            prediction[2].probability.toFixed(2) * 100
+        ) + "%";
     labelContainer
         .childNodes[3]
-        .innerHTML = "다리 좁음: " + prediction[3]
-        .probability
-        .toFixed(2) * 100 + "%";
+        .innerHTML = "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) +
+                "%";
 
     $(document).ready(function () {
         $('.bar-percentage[value]').each(function () {
@@ -226,15 +223,10 @@ async function predict() {
 
 var canvas1 = document.getElementById('canvas');
 var context = canvas1.getContext('2d');
-videoElement.addEventListener('play', function () {
-    var $this = this;
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-            context.drawImage($this, 0, 0, 400, 400);
-            setTimeout(loop, 1000 / 30);
-        }
-    })();
-}, 0);
+// videoElement.addEventListener('play', function () {     var $this = this;
+// (function loop() {         if (!$this.paused && !$this.ended) {
+// context.drawImage($this, 0, 0, 400, 400);             setTimeout(loop, 1000 /
+// 30);         }     })(); }, 0);
 
 function drawPose(pose) {
     if (videoElement) {
