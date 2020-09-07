@@ -166,18 +166,10 @@ async function predict() {
                 .css('width', pct);
         });
 
-        $("#bar-1").val() = prediction[0]
-            .probability
-            .toFixed(2) * 100;
-        $("#bar-2").val() = prediction[1]
-            .probability
-            .toFixed(2) * 100;
-        $("#bar-3").val() = prediction[2]
-            .probability
-            .toFixed(2) * 100;
-        $("#bar-4").val() = prediction[3]
-            .probability
-            .toFixed(2) * 100;
+        $("#bar-1").val() = parseInt(prediction[0].probability.toFixed(2) * 100);
+        $("#bar-2").val() = parseInt(prediction[1].probability.toFixed(2) * 100);
+        $("#bar-3").val() = parseInt(prediction[2].probability.toFixed(2) * 100);
+        $("#bar-4").val() = parseInt(prediction[3].probability.toFixed(2) * 100);
     });
 
     // 음성으로 행동 말해주기
