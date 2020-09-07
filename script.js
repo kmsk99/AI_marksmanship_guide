@@ -4,9 +4,9 @@
 
 (function () {
 
-    var canvas = document.getElementById('canvas'),
+    var canvas = document.getElementById('canvasIn'),
         context = canvas.getContext('2d'),
-        video = document.getElementById('video'),
+        video = document.getElementById('videoIn'),
         vendorUrl = window.URL || window.webkitURL;
 
     navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetuserMedia || navigator.msGetUserMedia;
