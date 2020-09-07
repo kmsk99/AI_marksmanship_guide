@@ -142,35 +142,57 @@ for (let i = 0; i < maxPredictions; i++) {
 }
 
     $(document).ready(function () {
-        for (let i = 0; i < maxPredictions; i++) {
-        $(".container"+i).css(
+        $(".container0").css(
             "width",
-            parseInt(prediction[i].probability.toFixed(2) * 100) + "%"
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
         );
-        $(".container"+i).html(
+        $(".container0").html(
             "정자세: " + 
-            parseInt(prediction[i].probability.toFixed(2) * 100) + "%"
+            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
         );
-    }
+        $(".container1").css(
+            "width",
+            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container1").html(
+            "다리 구부러짐: " + 
+            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container2").css(
+            "width",
+            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container2").html(
+            "오른다리 넓어짐: " + 
+            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container3").css(
+            "width",
+            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+        );
+        $(".container3").html(
+            "다리 좁음: " + 
+            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+        );
     });
 
-    labelContainer
-        .childNodes[0]
-        .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
-                "%";
-    labelContainer
-        .childNodes[1]
-        .innerHTML = "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) +
-                "%";
-    labelContainer
-        .childNodes[2]
-        .innerHTML = "오른다리 넓어짐: " + parseInt(
-            prediction[2].probability.toFixed(2) * 100
-        ) + "%";
-    labelContainer
-        .childNodes[3]
-        .innerHTML = "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) +
-                "%";
+    // labelContainer
+    //     .childNodes[0]
+    //     .innerHTML = "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) +
+    //             "%";
+    // labelContainer
+    //     .childNodes[1]
+    //     .innerHTML = "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) +
+    //             "%";
+    // labelContainer
+    //     .childNodes[2]
+    //     .innerHTML = "오른다리 넓어짐: " + parseInt(
+    //         prediction[2].probability.toFixed(2) * 100
+    //     ) + "%";
+    // labelContainer
+    //     .childNodes[3]
+    //     .innerHTML = "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) +
+    //             "%";
 
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.99) {
