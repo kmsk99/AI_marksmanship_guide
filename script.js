@@ -132,20 +132,26 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
-    // for (let i = 0; i < maxPredictions; i++) {     const classPrediction =
-    // prediction[i].className + ": " + prediction[i]         .probability
-    // .toFixed(2);     labelContainer         .childNodes[i]         .innerHTML =
-    // classPrediction; }
+for (let i = 0; i < maxPredictions; i++) {
+    const classPrediction = prediction[i].className + ": " + prediction[i]
+        .probability
+        .toFixed(2);
+    labelContainer
+        .childNodes[i]
+        .innerHTML = classPrediction;
+}
 
     $(document).ready(function () {
-        $(".container0").css(
+        for (let i = 0; i < maxPredictions; i++) {
+        $(".container"+i).css(
             "width",
-            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+            parseInt(prediction[i].probability.toFixed(2) * 100) + "%"
         );
-        $(".container0").html(
+        $(".container"+i).html(
             "정자세: " + 
-            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+            parseInt(prediction[i].probability.toFixed(2) * 100) + "%"
         );
+    }
     });
 
     labelContainer
