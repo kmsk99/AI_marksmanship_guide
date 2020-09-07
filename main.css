@@ -57,6 +57,11 @@ header {
   padding: 10px 30px;
 }
 
+h2 {
+    font-size: 30px !important;
+    text-align: center;
+}
+
 h3 {
     font-family: 'GungsuhChe', 'Gungsuh', '궁서체', '궁서' !important;
     font-size: 30px !important;
