@@ -102,7 +102,6 @@ let model,
     maxPredictions,
     status,
     prestatus;
-
 let count = 6
 
 // 클릭버튼 연결된 함수
@@ -121,7 +120,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 이후 2초에 한번씩 시간을 갱신한다.
     setInterval(statusVoice, 2000);
 });
-
 
     // 음성으로 행동 말해주는 함수
 function statusVoice() {
@@ -154,7 +152,6 @@ function statusVoice() {
         count = 6;
         prestatus = status;
     }
-
 }
 
 // 실시간으로 예측해줄수 있도록 예측 함수와 루프문으로 이루어짐
@@ -163,6 +160,7 @@ async function loop(timestamp) {
     window.requestAnimationFrame(loop);
 }
 
+// 예측 함수
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
@@ -170,6 +168,7 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
+    // 확률 바 설정 $ 이용
     $(document).ready(function () {
         $("#status").html(status + count);
         $(".container0").css(
@@ -202,6 +201,7 @@ async function predict() {
         );
     });
 
+    // status 업데이트
     if (prediction[0].probability.toFixed(2) >= 0.90) {
         status = "prone";
     } else if (prediction[1].probability.toFixed(2) >= 0.90) {
