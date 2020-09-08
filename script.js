@@ -94,7 +94,7 @@ let model,
     maxPredictions,
     status;
 
-let count = 5
+let count = 6
 
 // 클릭버튼 연결된 함수
 async function init() {
@@ -114,40 +114,30 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function statusVoice() {
     // 음성으로 행동 말해주기
-    if (prediction[0].probability.toFixed(2) >= 0.90) {
-        if (status != "prone") {
-            status = "prone";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        } else if (status == "prone" && count >= 0) {
-            var audio = new Audio(count + '.mp3');
-            audio.play();
-            count -= 1;
-        } else {
-            count = 5;
-            status = "";
-        }
-    } else if (prediction[1].probability.toFixed(2) >= 0.90) {
-        if (status != "bend") {
-            status = "bend";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-            count = 5;
-        }
-    } else if (prediction[2].probability.toFixed(2) >= 0.90) {
-        if (status != "right") {
-            status = "right";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-            count = 5;
-        }
-    } else if (prediction[3].probability.toFixed(2) >= 0.90) {
-        if (status != "narrow") {
-            status = "narrow";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-            count = 5;
-        }
+    if (status == "prone" && count == 6) {
+        var audio = new Audio(status + '.mp3');
+        audio.play();
+        count = 5;
+    } else if (status == "prone" && count > 0) {
+        var audio = new Audio(count + '.mp3');
+        audio.play();
+        count--;
+    } else if (count = 0) {
+        var audio = new Audio(count + '.mp3');
+        count = 6;
+        status = "";
+    } else if (status == "bend") {
+        var audio = new Audio(status + '.mp3');
+        audio.play();
+        count = 6;
+    } else if (status == "right") {
+        var audio = new Audio(status + '.mp3');
+        audio.play();
+        count = 6;
+    } else if (status == "narrow") {
+        var audio = new Audio(status + '.mp3');
+        audio.play();
+        count = 6;
     }
 
 }
@@ -167,6 +157,7 @@ async function predict() {
     const prediction = await model.predict(posenetOutput);
 
     $(document).ready(function () {
+        $(#status).html(status);
         $(".container0").css(
             "width",
             parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
@@ -196,6 +187,16 @@ async function predict() {
             "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
     });
+
+    if (prediction[0].probability.toFixed(2) >= 0.90) {
+        status = "prone";
+    } else if (prediction[1].probability.toFixed(2) >= 0.90) {
+        status = "bend";
+    } else if (prediction[2].probability.toFixed(2) >= 0.90) {
+        status = "right";
+    } else if (prediction[3].probability.toFixed(2) >= 0.90) {
+        status = "narrow";
+    }
 
     drawPose(pose);
 }
