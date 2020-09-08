@@ -117,12 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
 function statusVoice() {
     // 음성으로 행동 말해주기
     if (prediction[0].probability.toFixed(2) >= 0.90) {
-        if (status == "prone") {
-            var audio = new Audio(count + '.mp3');
-            audio.play();
-            count -= 1
-
-    if (prediction[0].probability.toFixed(2) >= 0.90) {
         if (status != "prone") {
             status = "prone";
             var audio = new Audio(status + '.mp3');
