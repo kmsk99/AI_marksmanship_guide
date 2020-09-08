@@ -91,9 +91,10 @@ const URL = "./my_model/";
 // 초기 값 설정
 let model,
     labelContainer,
-    maxPredictions;
+    maxPredictions,
+    status,
+    prestatus;
 
-let status = ""
 let count = 6
 
 // 클릭버튼 연결된 함수
@@ -126,18 +127,21 @@ function statusVoice() {
         var audio = new Audio(count + '.mp3');
         count = 6;
         status = "";
-    } else if (status == "bend") {
+    } else if (status == "bend" && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
-    } else if (status == "right") {
+        prestatus = status;
+    } else if (status == "right" && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
-    } else if (status == "narrow") {
+        prestatus = status;
+    } else if (status == "narrow" && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
+        prestatus = status;
     }
 
 }
