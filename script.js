@@ -91,9 +91,9 @@ const URL = "./my_model/";
 // 초기 값 설정
 let model,
     labelContainer,
-    maxPredictions,
-    status;
+    maxPredictions;
 
+let status = ""
 let count = 6
 
 // 클릭버튼 연결된 함수
