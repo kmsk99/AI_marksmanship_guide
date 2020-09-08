@@ -103,8 +103,46 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     window.requestAnimationFrame(loop);
-
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    // 시간을 딜레이 없이 나타내기위한 선 실행
+    statusVoice();
+    // 이후 2초에 한번씩 시간을 갱신한다.
+    setInterval(statusVoice, 2000);
+});
+
+// 시간을 출력
+
+function statusVoice() {
+    // 음성으로 행동 말해주기
+    if (prediction[0].probability.toFixed(2) >= 0.90) {
+        if (status != "prone") {
+            status = "prone";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+    } else if (prediction[1].probability.toFixed(2) >= 0.90) {
+        if (status != "bend") {
+            status = "bend";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+    } else if (prediction[2].probability.toFixed(2) >= 0.90) {
+        if (status != "right") {
+            status = "right";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+    } else if (prediction[3].probability.toFixed(2) >= 0.90) {
+        if (status != "narrow") {
+            status = "narrow";
+            var audio = new Audio(status + '.mp3');
+            audio.play();
+        }
+    }
+}
+// 1자리수의 숫자인 경우 앞에 0을 붙여준다.
 
 async function loop(timestamp) {
     var videoElement = document.querySelector('video');
@@ -125,65 +163,31 @@ async function predict() {
             parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
         );
         $(".container0").html(
-            "정자세: " + 
-            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+            "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
         );
         $(".container1").css(
             "width",
             parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
         );
         $(".container1").html(
-            "다리 구부러짐: " + 
-            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+            "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
         );
         $(".container2").css(
             "width",
             parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
         );
         $(".container2").html(
-            "오른다리 일직선: " + 
-            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+            "오른다리 일직선: " + parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
         );
         $(".container3").css(
             "width",
             parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
         $(".container3").html(
-            "다리 좁음: " + 
-            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+            "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
         );
     });
 
-    // 음성으로 행동 말해주기
-    if (prediction[0].probability.toFixed(2) >= 0.99) {
-        if (status == "bend" || status == "right" || status == "narrow") {
-            status = "prone";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "prone";
-    } else if (prediction[1].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "right" || status == "narrow") {
-            status = "bend";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "bend"
-    } else if (prediction[2].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "bend" || status == "narrow") {
-            status = "right";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "right"
-    } else if (prediction[3].probability.toFixed(2) >= 0.99) {
-        if (status == "prone" || status == "right" || status == "bend") {
-            status = "narrow";
-            var audio = new Audio(status + '.mp3');
-            audio.play();
-        }
-        status = "narrow"
-    }
     drawPose(pose);
 }
 
