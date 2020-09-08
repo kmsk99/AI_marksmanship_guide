@@ -110,7 +110,7 @@ async function init() {
 
 document.addEventListener("DOMContentLoaded", function () {
     // 이후 2초에 한번씩 시간을 갱신한다.
-    setInterval(statusVoice, 1000);
+    setInterval(statusVoice, 2000);
 });
 
 function statusVoice() {
@@ -161,7 +161,7 @@ async function predict() {
     const prediction = await model.predict(posenetOutput);
 
     $(document).ready(function () {
-        $("#status").html(status);
+        $("#status").html(status + count);
         $(".container0").css(
             "width",
             parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
