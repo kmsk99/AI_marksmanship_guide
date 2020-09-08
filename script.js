@@ -123,7 +123,7 @@ function statusVoice() {
         var audio = new Audio(count + '.mp3');
         audio.play();
         count--;
-    } else if (count = 0) {
+    } else if (count == 0) {
         var audio = new Audio(count + '.mp3');
         count = 6;
         status = "";
