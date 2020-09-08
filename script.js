@@ -16,15 +16,20 @@ limitations under the License.
 
 'use strict';
 
+// 비디오 셀렉터와 비디오 속성 추출
 var videoElement = document.querySelector('video');
 var videoSelect = document.querySelector('select#videoSource');
 
+// 비디오 셀렉터가 바뀔 때 getStream 실행
 videoSelect.onchange = getStream;
 
+// getDevices와 gotDevices 실행
 getStream()
     .then(getDevices)
     .then(gotDevices);
 
+// getStream에 의해 실행, enumerateDevices함수 실행
+// getStream에서 얻은 디바이스를 안내해주어 gotDevices로 보내주는 역할
 function getDevices() {
     // AFAICT in Safari this only gets default devices until gUM is called :/
     return navigator
@@ -32,6 +37,7 @@ function getDevices() {
         .enumerateDevices();
 }
 
+// getStream에 의해 실행하며 getDevices에서 얻어진 디바이스를 받아 출력함
 function gotDevices(deviceInfos) {
     window.deviceInfos = deviceInfos; // make available to console
     console.log('Available input and output devices:', deviceInfos);
@@ -45,6 +51,7 @@ function gotDevices(deviceInfos) {
     }
 }
 
+// 디바이스에 대한 속성을 추출해냄
 function getStream() {
     if (window.stream) {
         window
@@ -87,6 +94,7 @@ function handleError(error) {
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로
 
+// 모델 폴더 설정, 새로운 모델 추가 시 새로운 폴더를 생성하여 URL 바꿔주어야함
 const URL = "./my_model/";
 // 초기 값 설정
 let model,
@@ -99,22 +107,24 @@ let count = 6
 
 // 클릭버튼 연결된 함수
 async function init() {
+    // 모델 파일 연결
     const modelURL = URL + "model.json";
     const metadataURL = URL + "metadata.json";
-
+// 모델 파일에서 모델 함수를 추출해냄
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
-
+    // 루프구문
     window.requestAnimationFrame(loop);
 }
-
+// statusVoice 실행을 위한 초기 구문
 document.addEventListener("DOMContentLoaded", function () {
     // 이후 2초에 한번씩 시간을 갱신한다.
     setInterval(statusVoice, 2000);
 });
 
+
+    // 음성으로 행동 말해주는 함수
 function statusVoice() {
-    // 음성으로 행동 말해주기
     if (status == "prone" && count == 6) {
         var audio = new Audio(status + '.mp3');
         audio.play();
@@ -146,10 +156,9 @@ function statusVoice() {
     }
 
 }
-// 1자리수의 숫자인 경우 앞에 0을 붙여준다.
 
+// 실시간으로 예측해줄수 있도록 예측 함수와 루프문으로 이루어짐
 async function loop(timestamp) {
-    var videoElement = document.querySelector('video');
     await predict();
     window.requestAnimationFrame(loop);
 }
