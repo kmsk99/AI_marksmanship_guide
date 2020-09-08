@@ -125,6 +125,7 @@ function statusVoice() {
         count--;
     } else if (count == 0) {
         var audio = new Audio(count + '.mp3');
+        audio.play();
         count = 6;
         status = "";
     } else if (status == "bend" && prestatus != status) {
