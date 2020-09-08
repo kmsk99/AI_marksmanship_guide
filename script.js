@@ -94,6 +94,8 @@ let model,
     maxPredictions,
     status;
 
+let count = 5
+
 // 클릭버튼 연결된 함수
 async function init() {
     const modelURL = URL + "model.json";
@@ -109,38 +111,53 @@ document.addEventListener("DOMContentLoaded", function () {
     // 시간을 딜레이 없이 나타내기위한 선 실행
     statusVoice();
     // 이후 2초에 한번씩 시간을 갱신한다.
-    setInterval(statusVoice, 2000);
+    setInterval(statusVoice, 1000);
 });
-
-// 시간을 출력
 
 function statusVoice() {
     // 음성으로 행동 말해주기
+    if (prediction[0].probability.toFixed(2) >= 0.90) {
+        if (status == "prone") {
+            var audio = new Audio(count + '.mp3');
+            audio.play();
+            count -= 1
+
     if (prediction[0].probability.toFixed(2) >= 0.90) {
         if (status != "prone") {
             status = "prone";
             var audio = new Audio(status + '.mp3');
             audio.play();
+        } else if (status == "prone" && count >= 0) {
+            var audio = new Audio(count + '.mp3');
+            audio.play();
+            count -= 1;
+        } else {
+            count = 5;
+            status = "";
         }
     } else if (prediction[1].probability.toFixed(2) >= 0.90) {
         if (status != "bend") {
             status = "bend";
             var audio = new Audio(status + '.mp3');
             audio.play();
+            count = 5;
         }
     } else if (prediction[2].probability.toFixed(2) >= 0.90) {
         if (status != "right") {
             status = "right";
             var audio = new Audio(status + '.mp3');
             audio.play();
+            count = 5;
         }
     } else if (prediction[3].probability.toFixed(2) >= 0.90) {
         if (status != "narrow") {
             status = "narrow";
             var audio = new Audio(status + '.mp3');
             audio.play();
+            count = 5;
         }
     }
+
 }
 // 1자리수의 숫자인 경우 앞에 0을 붙여준다.
 
