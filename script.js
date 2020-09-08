@@ -157,7 +157,7 @@ async function predict() {
     const prediction = await model.predict(posenetOutput);
 
     $(document).ready(function () {
-        $(#status).html(status);
+        $("#status").html(status);
         $(".container0").css(
             "width",
             parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
