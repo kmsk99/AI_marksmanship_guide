@@ -176,9 +176,9 @@ async function predict() {
 
     // 확률 안정화
     preprone += (prediction[0].probability.toFixed(2) - preprone) * 0.2
-    prebend += (prediction[0].probability.toFixed(2) - prebend) * 0.2
-    preright += (prediction[0].probability.toFixed(2) - preright) * 0.2
-    prenarrow += (prediction[0].probability.toFixed(2) - prenarrow) * 0.2
+    prebend += (prediction[1].probability.toFixed(2) - prebend) * 0.2
+    preright += (prediction[2].probability.toFixed(2) - preright) * 0.2
+    prenarrow += (prediction[3].probability.toFixed(2) - prenarrow) * 0.2
 
     // 확률 바 설정 $ 이용
     $(document).ready(function () {
