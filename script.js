@@ -216,25 +216,25 @@ async function predict() {
 }
 
 var canvas1 = document.getElementById('canvas');
-var context = canvas1.getContext('2d');
-videoElement.addEventListener('play', function () {
-    var $this = this;
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-            context.drawImage($this, 0, 0, 400, 400);
-            setTimeout(loop, 1000 / 30);
-        }
-    })();
-}, 0);
+var ctx = canvas1.getContext('2d');
+// videoElement.addEventListener('play', function () {
+//     var $this = this;
+//     (function loop() {
+//         if (!$this.paused && !$this.ended) {
+//             ctx.drawImage($this, 0, 0, 400, 400);
+//             setTimeout(loop, 1000 / 30);
+//         }
+//     })();
+// }, 0);
 
 function drawPose(pose) {
     if (videoElement) {
-        context.drawImage(videoElement, 0, 0, 400, 400);
+        ctx.drawImage(videoElement, 0, 0, 400, 400);
         // draw the keypoints and skeleton
         if (pose) {
             const minPartConfidence = 0.5;
-            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, context);
-            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, context);
+            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
         }
     }
 }
