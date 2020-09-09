@@ -212,7 +212,7 @@ async function predict() {
         status = "narrow";
     }
 
-    drawPose(pose);
+    // drawPose(pose);
 }
 
 var canvas1 = document.getElementById('canvas');
