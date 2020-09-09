@@ -170,7 +170,7 @@ async function predict() {
 
     // 확률 바 설정 $ 이용
     $(document).ready(function () {
-        $("#status").html(status + count);
+        // $("#status").html(status + count);
         $(".container0").css(
             "width",
             parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
