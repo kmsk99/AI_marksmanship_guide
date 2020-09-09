@@ -102,7 +102,13 @@ let model,
     maxPredictions,
     status,
     prestatus;
-let count = 6
+let count = 6;
+let preprone = 0.25;
+let prebend = 0.25;
+let preright = 0.25;
+let prenarrow = 0.25;
+
+
 
 // 클릭버튼 연결된 함수
 async function init() {
@@ -168,51 +174,57 @@ async function predict() {
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
+    // 확률 안정화
+    preprone += (prediction[0].probability.toFixed(2) - preprone) * 0.2
+    prebend += (prediction[0].probability.toFixed(2) - prebend) * 0.2
+    preright += (prediction[0].probability.toFixed(2) - preright) * 0.2
+    prenarrow += (prediction[0].probability.toFixed(2) - prenarrow) * 0.2
+
     // 확률 바 설정 $ 이용
     $(document).ready(function () {
         // $("#status").html(status + count);
         $(".container0").css(
             "width",
-            parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+            parseInt(preprone * 100) + "%"
         );
         $(".container0").html(
-            "정자세: " + parseInt(prediction[0].probability.toFixed(2) * 100) + "%"
+            "정자세: " + parseInt(preprone * 100) + "%"
         );
         $(".container1").css(
             "width",
-            parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+            parseInt(prebend * 100) + "%"
         );
         $(".container1").html(
-            "다리 구부러짐: " + parseInt(prediction[1].probability.toFixed(2) * 100) + "%"
+            "다리 구부러짐: " + parseInt(prebend * 100) + "%"
         );
         $(".container2").css(
             "width",
-            parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+            parseInt(preright * 100) + "%"
         );
         $(".container2").html(
-            "오른다리 일직선: " + parseInt(prediction[2].probability.toFixed(2) * 100) + "%"
+            "오른다리 일직선: " + parseInt(preright * 100) + "%"
         );
         $(".container3").css(
             "width",
-            parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+            parseInt(prenarrow * 100) + "%"
         );
         $(".container3").html(
-            "다리 좁음: " + parseInt(prediction[3].probability.toFixed(2) * 100) + "%"
+            "다리 좁음: " + parseInt(prenarrow * 100) + "%"
         );
     });
 
     // status 업데이트
-    if (prediction[0].probability.toFixed(2) >= 0.90) {
+    if (preprone >= 0.90) {
         status = "prone";
-    } else if (prediction[1].probability.toFixed(2) >= 0.90) {
+    } else if (prebend >= 0.90) {
         status = "bend";
-    } else if (prediction[2].probability.toFixed(2) >= 0.90) {
+    } else if (preright >= 0.90) {
         status = "right";
-    } else if (prediction[3].probability.toFixed(2) >= 0.90) {
+    } else if (prenarrow >= 0.90) {
         status = "narrow";
     }
 
-    // drawPose(pose);
+    drawPose(pose);
 }
 
 var canvas1 = document.getElementById('canvas');
@@ -223,23 +235,18 @@ videoElement.addEventListener('play', function () {
         if (!$this.paused && !$this.ended) {
             ctx.drawImage($this, 0, 0, 400, 400);
             setTimeout(loop, 1000 / 30);
-            if (pose) {
-                const minPartConfidence = 0.5;
-                tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-                tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
-            }
         }
     })();
 }, 0);
 
-// function drawPose(pose) {
-//     if (videoElement) {
-//         ctx.drawImage(videoElement, 0, 0, 400, 400);
-//         // draw the keypoints and skeleton
-//         if (pose) {
-//             const minPartConfidence = 0.5;
-//             tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-//             tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
-//         }
-//     }
-// }
+function drawPose(pose) {
+    if (videoElement) {
+        ctx.drawImage(videoElement, 0, 0, 400, 400);
+        // draw the keypoints and skeleton
+        if (pose) {
+            const minPartConfidence = 0.5;
+            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
+        }
+    }
+}
