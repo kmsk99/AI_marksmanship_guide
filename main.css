@@ -32,10 +32,13 @@
     margin: 10px auto;
 }
 
-.w3-container {
-    height: 30px;
+.progress {
+    height: 30px !important;
     white-space: nowrap;
-    font-size: 18px;
+    font-size: 18px !important;
+    width: 80%;
+    text-align: center;
+    margin: 10px auto;
 }
 
 .select {
