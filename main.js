@@ -205,13 +205,13 @@ async function predict() {
     });
 
     // status 업데이트
-    if (preprone >= 0.90) {
+    if (preprone >= 0.80) {
         status = "prone";
-    } else if (prebend >= 0.90) {
+    } else if (prebend >= 0.80) {
         status = "bend";
-    } else if (preright >= 0.90) {
+    } else if (preright >= 0.80) {
         status = "right";
-    } else if (prenarrow >= 0.90) {
+    } else if (prenarrow >= 0.80) {
         status = "narrow";
     }
 
