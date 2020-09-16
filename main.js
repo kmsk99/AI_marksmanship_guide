@@ -166,7 +166,7 @@ function statusVoice() {
     };
     if (!status) {
         $(document).ready(function () {
-            $(".spinner-border").css("display", "hidden")
+            $(".spinner-border").css("display", "hidden !important")
         });
     }
 }
