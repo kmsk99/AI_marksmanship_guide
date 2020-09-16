@@ -109,13 +109,6 @@ let prenarrow = 0.25;
 
 // 클릭버튼 연결된 함수
 async function init() {
-    // 모델 파일 연결
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
-    // 모델 파일에서 모델 함수를 추출해냄
-    model = await tmPose.load(modelURL, metadataURL);
-    maxPredictions = model.getTotalClasses();
-
     $(document).ready(function () {
         $(".first").css("display", "hidden")
         $(".starting").html(
@@ -123,6 +116,13 @@ async function init() {
             'an></div>'
         );
     });
+    // 모델 파일 연결
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
+    // 모델 파일에서 모델 함수를 추출해냄
+    model = await tmPose.load(modelURL, metadataURL);
+    maxPredictions = model.getTotalClasses();
+
     // 루프구문
     window.requestAnimationFrame(loop);
 }
