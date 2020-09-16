@@ -110,7 +110,7 @@ let prenarrow = 0.25;
 // 클릭버튼 연결된 함수
 async function init() {
     $(document).ready(function () {
-        $(".first").css("display", "hidden")
+        $(".first").empty();
         $(".starting").html(
             '<div class="spinner-border" role="status"><span class="sr-only">Loading...</sp' +
             'an></div>'
@@ -164,10 +164,10 @@ function statusVoice() {
         count = 6;
         prestatus = status;
     };
-    if (!status) {
+    if (status) {
         $(document).ready(function () {
-            $(".spinner-border").css("display", "hidden !important")
-        });
+            $(".starting").empty()
+        })
     }
 }
 
