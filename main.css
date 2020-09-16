@@ -9,7 +9,7 @@ body:after {
     left: 0;
     position: absolute;
     background-size: 100%;
-    opacity: 0.5!important;
+    opacity: 0.2!important;
     filter:alpha(opacity=50);
     z-index: -1;
     content: "";
