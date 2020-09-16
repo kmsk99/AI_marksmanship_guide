@@ -47,11 +47,6 @@ body:after {
 }
 
 .bar {
-    width: 80%;
-    margin: 10px auto;
-}
-
-.progress {
     height: 30px !important;
     white-space: nowrap;
     font-size: 18px !important;
