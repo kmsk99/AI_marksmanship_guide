@@ -102,6 +102,23 @@ p {
     margin: 10px auto;
 }
 
-.btn {
-    margin: 10px auto;
+.wrapper {
+    height: 100%;
+    text-align: center;
+}
+
+.wrapper:before {
+    content: ""; display: inline-block;
+    width: 1px; height: 100%;
+    margin-right: 0; vertical-align: middle;
+}
+
+#btn-box {
+    display: inline-block; vertical-align: middle;
+    margin-bottom: 10px;
+}
+
+.card {
+    margin: 0 auto;
+    width: 80%;
 }
