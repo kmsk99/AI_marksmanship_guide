@@ -94,3 +94,7 @@ h3 {
 p {
     word-break: break-word;
 }
+
+.spinner-border {
+    margin: 10px auto;
+}
