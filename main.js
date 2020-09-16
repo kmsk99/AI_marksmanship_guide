@@ -163,6 +163,11 @@ function statusVoice() {
         audio.play();
         count = 6;
         prestatus = status;
+    };
+    if (!status) {
+        $(document).ready(function () {
+            $(".spinner-border").css("display", "hidden")
+        });
     }
 }
 
@@ -235,8 +240,4 @@ function drawPose(pose) {
             tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
         }
     }
-
-    $(document).ready(function () {
-        $(".spinner-border").css("display", "hidden")
-    });
 }
