@@ -98,3 +98,7 @@ p {
 .spinner-border {
     margin: 10px auto;
 }
+
+.input-group {
+    width: 80%;
+}

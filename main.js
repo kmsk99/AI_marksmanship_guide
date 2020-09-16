@@ -115,17 +115,20 @@ async function init() {
     // 모델 파일에서 모델 함수를 추출해냄
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
-    
+
     $(document).ready(function () {
         $(".first").css("display", "hidden")
-        $(".starting").html('<div class="spinner-border" role="status"><span class="sr-only">Loading...</span></div>');
+        $(".starting").html(
+            '<div class="spinner-border" role="status"><span class="sr-only">Loading...</sp' +
+            'an></div>'
+        );
     });
     // 루프구문
     window.requestAnimationFrame(loop);
 }
 // statusVoice 실행을 위한 초기 구문
 document.addEventListener("DOMContentLoaded", function () {
-    
+
     // 이후 2초에 한번씩 시간을 갱신한다.
     setInterval(statusVoice, 2000);
 });
