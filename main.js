@@ -188,10 +188,6 @@ async function predict() {
         $(".container1").html("다리 구부러짐: " + parseInt(prebend * 100) + "%");
         $(".container2").html("오른다리 일직선: " + parseInt(preright * 100) + "%");
         $(".container3").html("다리 좁음: " + parseInt(prenarrow * 100) + "%");
-        $(".container0").attr("aria-valuenow", parseInt(preprone * 100));
-        $(".container1").attr("aria-valuenow", parseInt(prebend * 100));
-        $(".container2").attr("aria-valuenow", parseInt(preright * 100));
-        $(".container3").attr("aria-valuenow", parseInt(prenarrow * 100));
     });
 
     // status 업데이트
