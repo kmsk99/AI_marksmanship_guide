@@ -100,5 +100,5 @@ p {
 }
 
 .input-group {
-    width: 80%;
+    width: 80% !important;
 }
