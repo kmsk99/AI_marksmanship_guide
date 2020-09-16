@@ -197,7 +197,6 @@ async function predict() {
         $(".container1").html("다리 구부러짐: " + parseInt(prebend * 100) + "%");
         $(".container2").html("오른다리 일직선: " + parseInt(preright * 100) + "%");
         $(".container3").html("다리 좁음: " + parseInt(prenarrow * 100) + "%");
-        $(".starting").css("display", "hidden")
     });
 
     // status 업데이트
@@ -236,4 +235,8 @@ function drawPose(pose) {
             tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
         }
     }
+
+    $(document).ready(function () {
+        $(".spinner-border").css("display", "hidden")
+    });
 }
