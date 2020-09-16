@@ -72,13 +72,6 @@ header {
     text-align: center;
 }
 
-#description {
-    margin: 0 auto;
-    width: 90%;
-    border: 5px solid #ddd;
-    padding: 10px;
-}
-
 h2 {
     font-size: 30px !important;
     text-align: center;
