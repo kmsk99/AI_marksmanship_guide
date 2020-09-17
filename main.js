@@ -107,14 +107,14 @@ let model,
     pre2 = 0.25,
     pre3 = 0.25,
     selectPose = "prone",
-    pose0,
-    pose1,
-    pose2,
-    pose3,
-    pose0p,
-    pose1p,
-    pose2p,
-    pose3p;
+    pose0 = "prone",
+    pose1 = "narrow",
+    pose2 = "right",
+    pose3 = "bend",
+    pose0p = "정자세",
+    pose1p = "다리 좁음",
+    pose2p = "오른다리 벌어짐",
+    pose3p = "다리 구부러짐";
 
 function poseSelect() {
     $(document).ready(function () {
