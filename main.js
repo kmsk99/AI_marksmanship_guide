@@ -94,7 +94,7 @@ function handleError(error) {
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로 모델 폴더
 // 설정, 새로운 모델 추가 시 새로운 폴더를 생성하여 URL 바꿔주어야함
-let URL = "./my_model/prone";
+let URL = "./my_model/prone/";
 // 초기 값 설정
 let model,
     labelContainer,
@@ -119,7 +119,7 @@ let model,
 function poseSelect() {
     $(document).ready(function () {
         selectPose = $("#inputGroupSelect01 option:selected").val();
-        URL = "./my_model/" + selectPose;
+        URL = "./my_model/" + selectPose + "/";
         $.getJSON('pose.json', function (data) {
             $.each(data, function (i, item) {
                 pose0 = item[selectPose].pose0;
