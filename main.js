@@ -122,15 +122,15 @@ function poseSelect() {
         URL = "./my_model/" + selectPose;
         $.getJSON('pose.json', function (data) {
             $.each(data, function (i, item) {
-                pose0 = item[selectPose].pose0;
-                pose1 = item[selectPose].pose1;
-                pose2 = item[selectPose].pose2;
-                pose3 = item[selectPose].pose3;
-                pose0p = item[selectPose].pose0p;
-                pose1p = item[selectPose].pose1p;
-                pose2p = item[selectPose].pose2p;
-                pose3p = item[selectPose].pose3p;
-                $(".card-body").html(item[selectPose].description);
+                pose0 = item.selectPose.pose0;
+                pose1 = item.selectPose.pose1;
+                pose2 = item.selectPose.pose2;
+                pose3 = item.selectPose.pose3;
+                pose0p = item.selectPose.pose0p;
+                pose1p = item.selectPose.pose1p;
+                pose2p = item.selectPose.pose2p;
+                pose3p = item.selectPose.pose3p;
+                $(".card-body").html(item.selectPose.description);
             });
         });
     });
