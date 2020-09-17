@@ -131,6 +131,7 @@ function poseSelect() {
                 pose2p = item[selectPose].pose2p;
                 pose3p = item[selectPose].pose3p;
                 $(".card-body").html(item[selectPose].description);
+                $("#btn-box").html(item[selectPose].name + " 요령");
             });
         });
     });
