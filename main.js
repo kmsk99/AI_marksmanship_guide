@@ -139,10 +139,12 @@ function statusVoice() {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 5;
+        status = "";
     } else if (status == "prone" && count > 0) {
         var audio = new Audio(count + '.mp3');
         audio.play();
         count--;
+        status = "";
     } else if (count == 0) {
         var audio = new Audio(count + '.mp3');
         audio.play();
