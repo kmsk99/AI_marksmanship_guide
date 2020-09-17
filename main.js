@@ -120,7 +120,7 @@ let selectPose,
 async function init() {
     $(document).ready(function () {
         selectPose = $("#inputGroupSelect01 option:selected").val();
-        URL = "./my_model/" + selectPose
+        URL = "./my_model/" + selectPose;
         $.getJSON('pose.json', function (data) {
             $.each(data, function (i, item) {
                 pose0 = item[selectPose].pose0;
@@ -131,8 +131,9 @@ async function init() {
                 pose1p = item[selectPose].pose1p;
                 pose2p = item[selectPose].pose2p;
                 pose3p = item[selectPose].pose3p;
+                $(".card-body").html(item[selectPose].description);
             });
-        })
+        });
     });
     $(document).ready(function () {
         $(".first").empty();
@@ -160,12 +161,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 음성으로 행동 말해주는 함수
 function statusVoice() {
-    if (status == "prone" && count == 6) {
+    if (status == pose0 && count == 6) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 5;
         status = "";
-    } else if (status == "prone" && count > 0) {
+    } else if (status == pose0 && count > 0) {
         var audio = new Audio(count + '.mp3');
         audio.play();
         count--;
@@ -175,17 +176,17 @@ function statusVoice() {
         audio.play();
         count = 6;
         status = "";
-    } else if (status == "narrow" && prestatus != status) {
+    } else if (status == pose1 && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
         prestatus = status;
-    } else if (status == "right" && prestatus != status) {
+    } else if (status == pose2 && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
         prestatus = status;
-    } else if (status == "bend" && prestatus != status) {
+    } else if (status == pose3 && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
@@ -225,21 +226,21 @@ async function predict() {
         $(".container1").css("width", parseInt(pre1 * 100) + "%");
         $(".container2").css("width", parseInt(pre2 * 100) + "%");
         $(".container3").css("width", parseInt(pre3 * 100) + "%");
-        $(".container0").html("정자세: " + parseInt(pre0 * 100) + "%");
-        $(".container1").html("다리 좁음: " + parseInt(pre1 * 100) + "%");
-        $(".container2").html("오른다리 일직선: " + parseInt(pre2 * 100) + "%");
-        $(".container3").html("다리 구부러짐: " + parseInt(pre3 * 100) + "%");
+        $(".container0").html(pose0p + " : " + parseInt(pre0 * 100) + "%");
+        $(".container1").html(pose1p + " : " + parseInt(pre1 * 100) + "%");
+        $(".container2").html(pose2p + " : " + parseInt(pre2 * 100) + "%");
+        $(".container3").html(pose3p + " : " + parseInt(pre3 * 100) + "%");
     });
 
     // status 업데이트
     if (pre0 >= 0.80) {
-        status = "prone";
+        status = pose0;
     } else if (pre1 >= 0.80) {
-        status = "narrow";
+        status = pose1;
     } else if (pre2 >= 0.80) {
-        status = "right";
+        status = pose2;
     } else if (pre3 >= 0.80) {
-        status = "bend";
+        status = pose3;
     }
 
     drawPose(pose);
