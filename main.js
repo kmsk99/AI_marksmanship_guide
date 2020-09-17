@@ -94,19 +94,19 @@ function handleError(error) {
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로 모델 폴더
 // 설정, 새로운 모델 추가 시 새로운 폴더를 생성하여 URL 바꿔주어야함
-var URL = "./my_model/";
+let URL = "./my_model/prone";
 // 초기 값 설정
 let model,
     labelContainer,
     maxPredictions,
     status,
-    prestatus;
-let count = 6;
-let pre0 = 0.25;
-let pre1 = 0.25;
-let pre2 = 0.25;
-let pre3 = 0.25;
-let selectPose,
+    prestatus,
+    count = 6,
+    pre0 = 0.25,
+    pre1 = 0.25,
+    pre2 = 0.25,
+    pre3 = 0.25,
+    selectPose = "prone",
     pose0,
     pose1,
     pose2,
@@ -116,8 +116,7 @@ let selectPose,
     pose2p,
     pose3p;
 
-// 클릭버튼 연결된 함수
-async function init() {
+function poseSelect() {
     $(document).ready(function () {
         selectPose = $("#inputGroupSelect01 option:selected").val();
         URL = "./my_model/" + selectPose;
@@ -135,6 +134,10 @@ async function init() {
             });
         });
     });
+};
+
+// 클릭버튼 연결된 함수
+async function init() {
     $(document).ready(function () {
         $(".first").empty();
         $(".starting").html(
