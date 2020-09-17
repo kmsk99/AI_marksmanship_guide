@@ -1,0 +1,24 @@
+[{
+        "prone": {
+            "pose0": "prone",
+            "pose1": "narrow",
+            "pose2": "right",
+            "pose3": "bend",
+            "pose0p": "정자세",
+            "pose1p": "다리 좁음",
+            "pose2p": "오른다리 벌어짐",
+            "pose3p": "다리 구부러짐"
+        },
+        "kneeling": {
+            "pose0": "kneeling",
+            "pose1": "angle",
+            "pose2": "wide",
+            "pose3": "elbow",
+            "pose0p": "정자세",
+            "pose1p": "다리 각도 좁음",
+            "pose2p": "발 간격 벌어짐",
+            "pose3p": "팔꿈치 위치 조정"
+        }
+
+    }
+]

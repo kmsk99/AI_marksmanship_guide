@@ -94,7 +94,7 @@ function handleError(error) {
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로 모델 폴더
 // 설정, 새로운 모델 추가 시 새로운 폴더를 생성하여 URL 바꿔주어야함
-const URL = "./my_model/";
+var URL = "./my_model/";
 // 초기 값 설정
 let model,
     labelContainer,
@@ -102,13 +102,38 @@ let model,
     status,
     prestatus;
 let count = 6;
-let preprone = 0.25;
-let prebend = 0.25;
-let preright = 0.25;
-let prenarrow = 0.25;
+let pre0 = 0.25;
+let pre1 = 0.25;
+let pre2 = 0.25;
+let pre3 = 0.25;
+let selectPose,
+    pose0,
+    pose1,
+    pose2,
+    pose3,
+    pose0p,
+    pose1p,
+    pose2p,
+    pose3p;
 
 // 클릭버튼 연결된 함수
 async function init() {
+    $(document).ready(function () {
+        selectPose = $("#inputGroupSelect01 option:selected").val();
+        URL = "./my_model/" + selectPose
+        $.getJSON('pose.json', function (data) {
+            $.each(data, function (i, item) {
+                pose0 = item[selectPose].pose0;
+                pose1 = item[selectPose].pose1;
+                pose2 = item[selectPose].pose2;
+                pose3 = item[selectPose].pose3;
+                pose0p = item[selectPose].pose0p;
+                pose1p = item[selectPose].pose1p;
+                pose2p = item[selectPose].pose2p;
+                pose3p = item[selectPose].pose3p;
+            });
+        })
+    });
     $(document).ready(function () {
         $(".first").empty();
         $(".starting").html(
@@ -117,8 +142,8 @@ async function init() {
         );
     });
     // 모델 파일 연결
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
+    var modelURL = URL + "model.json";
+    var metadataURL = URL + "metadata.json";
     // 모델 파일에서 모델 함수를 추출해냄
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
@@ -148,7 +173,7 @@ function statusVoice() {
         audio.play();
         count = 6;
         status = "";
-    } else if (status == "bend" && prestatus != status) {
+    } else if (status == "narrow" && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
@@ -158,7 +183,7 @@ function statusVoice() {
         audio.play();
         count = 6;
         prestatus = status;
-    } else if (status == "narrow" && prestatus != status) {
+    } else if (status == "bend" && prestatus != status) {
         var audio = new Audio(status + '.mp3');
         audio.play();
         count = 6;
@@ -186,33 +211,33 @@ async function predict() {
     const prediction = await model.predict(posenetOutput);
 
     // 확률 안정화
-    preprone += (prediction[0].probability.toFixed(2) - preprone) * 0.2
-    prebend += (prediction[1].probability.toFixed(2) - prebend) * 0.2
-    preright += (prediction[2].probability.toFixed(2) - preright) * 0.2
-    prenarrow += (prediction[3].probability.toFixed(2) - prenarrow) * 0.2
+    pre0 += (prediction[0].probability.toFixed(2) - pre0) * 0.2
+    pre1 += (prediction[1].probability.toFixed(2) - pre1) * 0.2
+    pre2 += (prediction[2].probability.toFixed(2) - pre2) * 0.2
+    pre3 += (prediction[3].probability.toFixed(2) - pre3) * 0.2
 
     // 확률 바 설정 $ 이용
     $(document).ready(function () {
         // $("#status").html(status + count);
-        $(".container0").css("width", parseInt(preprone * 100) + "%");
-        $(".container1").css("width", parseInt(prebend * 100) + "%");
-        $(".container2").css("width", parseInt(preright * 100) + "%");
-        $(".container3").css("width", parseInt(prenarrow * 100) + "%");
-        $(".container0").html("정자세: " + parseInt(preprone * 100) + "%");
-        $(".container1").html("다리 구부러짐: " + parseInt(prebend * 100) + "%");
-        $(".container2").html("오른다리 일직선: " + parseInt(preright * 100) + "%");
-        $(".container3").html("다리 좁음: " + parseInt(prenarrow * 100) + "%");
+        $(".container0").css("width", parseInt(pre0 * 100) + "%");
+        $(".container1").css("width", parseInt(pre1 * 100) + "%");
+        $(".container2").css("width", parseInt(pre2 * 100) + "%");
+        $(".container3").css("width", parseInt(pre3 * 100) + "%");
+        $(".container0").html("정자세: " + parseInt(pre0 * 100) + "%");
+        $(".container1").html("다리 좁음: " + parseInt(pre1 * 100) + "%");
+        $(".container2").html("오른다리 일직선: " + parseInt(pre2 * 100) + "%");
+        $(".container3").html("다리 구부러짐: " + parseInt(pre3 * 100) + "%");
     });
 
     // status 업데이트
-    if (preprone >= 0.80) {
+    if (pre0 >= 0.80) {
         status = "prone";
-    } else if (prebend >= 0.80) {
-        status = "bend";
-    } else if (preright >= 0.80) {
-        status = "right";
-    } else if (prenarrow >= 0.80) {
+    } else if (pre1 >= 0.80) {
         status = "narrow";
+    } else if (pre2 >= 0.80) {
+        status = "right";
+    } else if (pre3 >= 0.80) {
+        status = "bend";
     }
 
     drawPose(pose);
