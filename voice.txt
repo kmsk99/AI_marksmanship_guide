@@ -1,0 +1,6 @@
+curl -v -X POST "https://kakaoi-newtone-openapi.kakao.com/v1/synthesize" \
+-H "Content-Type: application/xml" \
+-H "Authorization: KakaoAK 9ad404e678bbca50c630f9ee317713e0" \
+-d '<speak>
+왼쪽 팔꿈치를 왼쪽 무릎 위에 놓으세요
+</speak>' > elbow.mp3
