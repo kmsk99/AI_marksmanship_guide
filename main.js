@@ -1,95 +1,3 @@
-/*
-Copyright 2017 Google Inc.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-'use strict';
-
-// 비디오 셀렉터와 비디오 속성 추출
-var videoElement = document.querySelector('video');
-var videoSelect = document.querySelector('select#videoSource');
-
-// 비디오 셀렉터가 바뀔 때 getStream 실행
-videoSelect.onchange = getStream;
-
-// getDevices와 gotDevices 실행
-getStream()
-    .then(getDevices)
-    .then(gotDevices);
-
-// getStream에 의해 실행, enumerateDevices함수 실행 getStream에서 얻은 디바이스를 안내해주어
-// gotDevices로 보내주는 역할
-function getDevices() {
-    // AFAICT in Safari this only gets default devices until gUM is called :/
-    return navigator
-        .mediaDevices
-        .enumerateDevices();
-}
-
-// getStream에 의해 실행하며 getDevices에서 얻어진 디바이스를 받아 출력함
-function gotDevices(deviceInfos) {
-    window.deviceInfos = deviceInfos; // make available to console
-    console.log('Available input and output devices:', deviceInfos);
-    for (const deviceInfo of deviceInfos) {
-        const option = document.createElement('option');
-        option.value = deviceInfo.deviceId;
-        if (deviceInfo.kind === 'videoinput') {
-            option.text = deviceInfo.label || `Camera ${videoSelect.length + 1}`;
-            videoSelect.appendChild(option);
-        }
-    }
-}
-
-// 디바이스에 대한 속성을 추출해냄
-function getStream() {
-    if (window.stream) {
-        window
-            .stream
-            .getTracks()
-            .forEach(track => {
-                track.stop();
-            });
-    }
-    const videoSource = videoSelect.value;
-    const constraints = {
-        video: {
-            deviceId: videoSource
-                ? {
-                    exact: videoSource
-                }
-                : undefined
-        }
-    };
-    return navigator
-        .mediaDevices
-        .getUserMedia(constraints)
-        .then(gotStream)
-        .catch(handleError);
-}
-
-function gotStream(stream) {
-    window.stream = stream; // make stream available to console
-    videoSelect.selectedIndex = [...videoSelect.options].findIndex(
-        option => option.text === stream.getVideoTracks()[0].label
-    );
-    videoElement.srcObject = stream;
-}
-
-function handleError(error) {
-    console.error('Error: ', error);
-}
-
 // More API functions here:
 // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 // the link to your model provided by Teachable Machine export panel 경로 모델 폴더
@@ -153,12 +61,22 @@ async function init() {
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
+    const flip = true; // whether to flip the webcam
+    webcam = new tmPose.Webcam(200, 200, flip); // width, height, flip
+    await webcam.setup({ facingMode: "environment" }); // request access to the webcam
+    webcam.play();
     // 루프구문
     window.requestAnimationFrame(loop);
+
+    // append/get elements to the DOM
+    const canvas = document.getElementById('canvas');
+    canvas.width = 400;
+    canvas.height = 400;
+    ctx = canvas.getContext('2d');
 }
+
 // statusVoice 실행을 위한 초기 구문
 document.addEventListener("DOMContentLoaded", function () {
-
     // 이후 2초에 한번씩 시간을 갱신한다.
     setInterval(statusVoice, 2000);
 });
@@ -205,6 +123,7 @@ function statusVoice() {
 
 // 실시간으로 예측해줄수 있도록 예측 함수와 루프문으로 이루어짐
 async function loop(timestamp) {
+    webcam.update(); // update the webcam frame
     await predict();
     window.requestAnimationFrame(loop);
 }
@@ -247,29 +166,24 @@ async function predict() {
         status = pose3;
     }
 
+}
+
+async function predict() {
+    // Prediction #1: run input through posenet estimatePose can take in an image,
+    // video or canvas html element
+    const {pose, posenetOutput} = await model.estimatePose(webcam.canvas);
+    // Prediction 2: run input through teachable machine classification model
+    const prediction = await model.predict(posenetOutput);
+    // finally draw the poses
     drawPose(pose);
 }
 
-var canvas1 = document.getElementById('canvas');
-var ctx = canvas1.getContext('2d');
-videoElement.addEventListener('play', function () {
-    var $this = this;
-    (function loop() {
-        if (!$this.paused && !$this.ended) {
-            ctx.drawImage($this, 0, 0, 400, 400);
-            setTimeout(loop, 1000 / 30);
-        }
-    })();
-}, 0);
-
 function drawPose(pose) {
-    if (videoElement) {
-        ctx.drawImage(videoElement, 0, 0, 400, 400);
-        // draw the keypoints and skeleton
-        if (pose) {
-            const minPartConfidence = 0.5;
-            tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
-            tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
-        }
+    ctx.drawImage(webcam.canvas, 0, 0);
+    // draw the keypoints and skeleton
+    if (pose) {
+        const minPartConfidence = 0.5;
+        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx);
+        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx);
     }
 }
