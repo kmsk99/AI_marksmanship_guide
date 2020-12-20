@@ -31,10 +31,6 @@
         const canvas = document.getElementById('canvas');
         canvas.width = 200; canvas.height = 200;
         ctx = canvas.getContext('2d');
-        labelContainer = document.getElementById('label-container');
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
-            labelContainer.appendChild(document.createElement('div'));
-        }
     }
 
     async function loop(timestamp) {
