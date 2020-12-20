@@ -179,7 +179,7 @@ function drawPose(pose) {
     // draw the keypoints and skeleton
     if (pose) {
         const minPartConfidence = 0.5;
-        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx, scale = 2);
-        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx, scale = 2);
+        tmPose.drawKeypoints(pose.keypoints, minPartConfidence, ctx, 4, "aqua", "aqua", 2);
+        tmPose.drawSkeleton(pose.keypoints, minPartConfidence, ctx, 2, "aqua", 2);
     }
 }
