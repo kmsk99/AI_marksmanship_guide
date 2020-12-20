@@ -48,11 +48,6 @@ function poseSelect() {
     });
 };
 
-const flip = true; // whether to flip the webcam
-webcam = new tmPose.Webcam(400, 400, flip); // width, height, flip
-await webcam.setup(); // request access to the webcam
-webcam.setup({ facingMode: "environment" })
-
 // 클릭버튼 연결된 함수
 async function init() {
     $(document).ready(function () {
@@ -69,6 +64,9 @@ async function init() {
     model = await tmPose.load(modelURL, metadataURL);
     maxPredictions = model.getTotalClasses();
 
+    const flip = true; // whether to flip the webcam
+    webcam = new tmPose.Webcam(400, 400, flip, { facingMode: "environment" }); // width, height, flip
+    await webcam.setup(); // request access to the webcam
     webcam.play();
     // 루프구문
     window.requestAnimationFrame(loop);
