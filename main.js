@@ -23,8 +23,7 @@ let model,
     pose0p = "정자세",
     pose1p = "다리 좁음",
     pose2p = "오른다리 벌어짐",
-    pose3p = "다리 구부러짐",
-    constraints = {facingMode: "environment"};
+    pose3p = "다리 구부러짐";
 
 function poseSelect() {
     $(document).ready(function () {
