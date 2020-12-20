@@ -63,7 +63,7 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     const flip = true; // whether to flip the webcam
-    webcam = new tmPose.Webcam(200, 200, 'front', flip); // width, height, flip
+    webcam = new tmPose.Webcam(200, 200, flip); // width, height, flip
     await webcam.setup({ facingMode: "environment" }); // request access to the webcam
     webcam.play();
     // 루프구문
@@ -71,8 +71,8 @@ async function init() {
 
     // append/get elements to the DOM
     const canvas = document.getElementById('canvas');
-    canvas.width = 400;
-    canvas.height = 400;
+    canvas.width = 200;
+    canvas.height = 200;
     ctx = canvas.getContext('2d');
 }
 
