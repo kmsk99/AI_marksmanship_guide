@@ -66,7 +66,7 @@ async function init() {
 
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(200, 200, false); // width, height, flip
-    await webcam.setup({facingMode: "environment"}); // request access to the webcam
+    await webcam.setup({ facingMode: "environment" }); // request access to the webcam
     webcam.play();
     // 루프구문
     window.requestAnimationFrame(loop);
@@ -133,7 +133,7 @@ async function loop(timestamp) {
 async function predict() {
     // Prediction #1: run input through posenet estimatePose can take in an image,
     // video or canvas html element
-    const {pose, posenetOutput} = await model.estimatePose(webcam.canvas);
+    const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
     // Prediction 2: run input through teachable machine classification model
     const prediction = await model.predict(posenetOutput);
 
@@ -144,21 +144,16 @@ async function predict() {
     pre3 += (prediction[3].probability.toFixed(2) - pre3) * 0.2
 
     // 확률 바 설정 $ 이용
-    container0 = document.getElementsByClassName("container0")
-    container1 = document.getElementsByClassName("container1")
-    container2 = document.getElementsByClassName("container2")
-    container3 = document.getElementsByClassName("container3")
-    container0.innerHTML = pose0p + " : " + parseInt(pre0 * 100) + "%"
-    container1.innerHTML = pose1p + " : " + parseInt(pre1 * 100) + "%"
-    container2.innerHTML = pose2p + " : " + parseInt(pre2 * 100) + "%"
-    container3.innerHTML = pose3p + " : " + parseInt(pre3 * 100) + "%"
-
     $(document).ready(function () {
         // $("#status").html(status + count);
         $(".container0").css("width", parseInt(pre0 * 100) + "%");
         $(".container1").css("width", parseInt(pre1 * 100) + "%");
         $(".container2").css("width", parseInt(pre2 * 100) + "%");
         $(".container3").css("width", parseInt(pre3 * 100) + "%");
+        $(".container0").html(pose0p + " : " + parseInt(pre0 * 100) + "%");
+        $(".container1").html(pose1p + " : " + parseInt(pre1 * 100) + "%");
+        $(".container2").html(pose2p + " : " + parseInt(pre2 * 100) + "%");
+        $(".container3").html(pose3p + " : " + parseInt(pre3 * 100) + "%");
     });
 
     // status 업데이트
