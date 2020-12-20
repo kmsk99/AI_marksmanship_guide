@@ -11,7 +11,7 @@
     // the link to your model provided by Teachable Machine export panel
     const URL = "./my_model/prone/";
     let model, webcam, ctx, labelContainer, maxPredictions;
-
+    let URL = "./my_model/prone/";
     async function init() {
         const modelURL = URL + 'model.json';
         const metadataURL = URL + 'metadata.json';
@@ -23,15 +23,19 @@
 
         // Convenience function to setup a webcam
         const flip = true; // whether to flip the webcam
-        webcam = new tmPose.Webcam(400, 400, flip); // width, height, flip
+        webcam = new tmPose.Webcam(200, 200, flip); // width, height, flip
         await webcam.setup({ facingMode: "environment" }); // request access to the webcam
         webcam.play();
         window.requestAnimationFrame(loop);
 
         // append/get elements to the DOM
         const canvas = document.getElementById('canvas');
-        canvas.width = 400; canvas.height = 400;
+        canvas.width = 200; canvas.height = 200;
         ctx = canvas.getContext('2d');
+        labelContainer = document.getElementById('label-container');
+        for (let i = 0; i < maxPredictions; i++) { // and class labels
+            labelContainer.appendChild(document.createElement('div'));
+        }
     }
 
     async function loop(timestamp) {
@@ -46,6 +50,13 @@
         const { pose, posenetOutput } = await model.estimatePose(webcam.canvas);
         // Prediction 2: run input through teachable machine classification model
         const prediction = await model.predict(posenetOutput);
+
+        for (let i = 0; i < maxPredictions; i++) {
+            const classPrediction =
+                prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+            labelContainer.childNodes[i].innerHTML = classPrediction;
+        }
+
         // finally draw the poses
         drawPose(pose);
     }
