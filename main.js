@@ -23,23 +23,9 @@ let model,
     pose0p = "정자세",
     pose1p = "다리 좁음",
     pose2p = "오른다리 벌어짐",
-    pose3p = "다리 구부러짐",
-    dompose = "정자세";
-
-if (pre0 > 0.50) {
-    dompose = pose0p
-} else if (pre1 > 0.50) {
-    dompose = pose1p
-} else if (pre2 > 0.50) {
-    dompose = pose2p
-} else if (pre3 > 0.50) {
-    dompose = pose3p
-}
+    pose3p = "다리 구부러짐";
 
 let domposehtml = document.getElementById("dompose");
-domposehtml.innerHTML = dompose
-
-
 
 function poseSelect() {
     $(document).ready(function () {
@@ -173,12 +159,16 @@ async function predict() {
     // status 업데이트
     if (pre0 >= 0.80) {
         status = pose0;
+        domposehtml.innerHTML = pose0p;
     } else if (pre1 >= 0.80) {
         status = pose1;
+        domposehtml.innerHTML = pose1p;
     } else if (pre2 >= 0.80) {
         status = pose2;
+        domposehtml.innerHTML = pose2p;
     } else if (pre3 >= 0.80) {
         status = pose3;
+        domposehtml.innerHTML = pose3p;
     }
     drawPose(pose);
 
