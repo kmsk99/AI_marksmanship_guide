@@ -3,8 +3,6 @@
 // the link to your model provided by Teachable Machine export panel 경로 모델 폴더
 // 설정, 새로운 모델 추가 시 새로운 폴더를 생성하여 URL 바꿔주어야함
 
-'use strict';
-
 let URL = "./my_model/prone/";
 // 초기 값 설정
 let model,
