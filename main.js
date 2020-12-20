@@ -165,17 +165,8 @@ async function predict() {
     } else if (pre3 >= 0.80) {
         status = pose3;
     }
-
-}
-
-async function predict() {
-    // Prediction #1: run input through posenet estimatePose can take in an image,
-    // video or canvas html element
-    const {pose, posenetOutput} = await model.estimatePose(webcam.canvas);
-    // Prediction 2: run input through teachable machine classification model
-    const prediction = await model.predict(posenetOutput);
-    // finally draw the poses
     drawPose(pose);
+
 }
 
 function drawPose(pose) {
