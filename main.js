@@ -65,7 +65,7 @@ async function init() {
     maxPredictions = model.getTotalClasses();
 
     const flip = true; // whether to flip the webcam
-    webcam = new tmPose.Webcam(400, 400, flip, { facingMode: "environment" }); // width, height, flip
+    webcam = new tmPose.Webcam(400, 400, flip); // width, height, flip
     await webcam.setup(); // request access to the webcam
     webcam.play();
     // 루프구문
