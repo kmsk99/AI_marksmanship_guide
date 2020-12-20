@@ -26,7 +26,7 @@ let model,
     pose3p = "다리 구부러짐";
 
 let dompose = document.getElementById("dompose");
-
+dompose.innerHTML = pose0p
 
 function poseSelect() {
     $(document).ready(function () {
