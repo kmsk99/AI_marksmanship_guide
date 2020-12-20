@@ -175,7 +175,7 @@ async function predict() {
 }
 
 function drawPose(pose) {
-    ctx.drawImage(webcam.canvas, 0, 0);
+    ctx.drawImage(webcam.canvas, 0, 0, 400, 400);
     // draw the keypoints and skeleton
     if (pose) {
         const minPartConfidence = 0.5;
