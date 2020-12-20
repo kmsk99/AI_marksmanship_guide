@@ -152,10 +152,14 @@ async function predict() {
     container1.innerHTML = pose1p + " : " + parseInt(pre1 * 100) + "%"
     container2.innerHTML = pose2p + " : " + parseInt(pre2 * 100) + "%"
     container3.innerHTML = pose3p + " : " + parseInt(pre3 * 100) + "%"
-    container0.style.width = parseInt(pre0 * 100) + "%"
-    container1.style.width = parseInt(pre1 * 100) + "%"
-    container2.style.width = parseInt(pre2 * 100) + "%"
-    container3.style.width = parseInt(pre3 * 100) + "%"
+
+    $(document).ready(function () {
+        // $("#status").html(status + count);
+        $(".container0").css("width", parseInt(pre0 * 100) + "%");
+        $(".container1").css("width", parseInt(pre1 * 100) + "%");
+        $(".container2").css("width", parseInt(pre2 * 100) + "%");
+        $(".container3").css("width", parseInt(pre3 * 100) + "%");
+    });
 
     // status 업데이트
     if (pre0 >= 0.80) {
