@@ -22,6 +22,10 @@ body:after {
     width: 100%;
 }
 
+#dompose {
+    font-size: 20pt;
+}
+
 .booth {
     width: 210px;
     background: #ccc;
