@@ -23,10 +23,23 @@ let model,
     pose0p = "정자세",
     pose1p = "다리 좁음",
     pose2p = "오른다리 벌어짐",
-    pose3p = "다리 구부러짐";
+    pose3p = "다리 구부러짐",
+    dompose = "정자세";
 
-let dompose = document.getElementById("dompose");
-dompose.innerHTML = pose0p
+if (pre0 > 0.50) {
+    dompose = pose0p
+} else if (pre1 > 0.50) {
+    dompose = pose1p
+} else if (pre2 > 0.50) {
+    dompose = pose2p
+} else if (pre3 > 0.50) {
+    dompose = pose3p
+}
+
+let domposehtml = document.getElementById("dompose");
+domposehtml.innerHTML = dompose
+
+
 
 function poseSelect() {
     $(document).ready(function () {
