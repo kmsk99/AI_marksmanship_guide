@@ -25,6 +25,9 @@ let model,
     pose2p = "오른다리 벌어짐",
     pose3p = "다리 구부러짐";
 
+let dompose = document.getElementById("dompose");
+
+
 function poseSelect() {
     $(document).ready(function () {
         selectPose = $("#inputGroupSelect01 option:selected").val();
