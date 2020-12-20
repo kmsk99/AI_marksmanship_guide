@@ -19,23 +19,11 @@
         <header>
             <img id="title" src="title.png" alt="AI 사격술 가이드">
         </header>
-        <!-- 비디오 -->
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <label class="input-group-text" for="inputGroupSelect01">자세 선택</label>
-            </div>
-            <select class="custom-select" id="inputGroupSelect01" onchange="poseSelect()">
-                <option selected="selected" value="prone">엎드려 쏴</option>
-                <option value="kneeling">무릎 쏴</option>
-            </select>
-        </div>
         <div id="container">
             <div class="input-group select">
-                <select
-                    class="custom-select"
-                    id="videoSource"
-                    aria-label="Example select with button addon">
-                    <option selected="selected">카메라 선택</option>
+                <select class="custom-select" id="inputGroupSelect01" onchange="poseSelect()">
+                    <option selected="selected" value="prone">엎드려 쏴</option>
+                    <option value="kneeling">무릎 쏴</option>
                 </select>
                 <div class="input-group-append">
                     <button class="btn btn-outline-secondary" type="button" onclick="init()">측정 시작</button>
@@ -47,12 +35,7 @@
                     (크롬 혹은 인터넷 어플로 실행 가능합니다)</p>
                 <!-- <p><span id="status"></span></p> -->
             </div>
-
         </div>
-
-        <button type='button' onclick='init()'>Start</button>
-<div><canvas id='canvas'></canvas></div>
-<div id='label-container'></div>
         <div class="booth">
             <!-- 출력되는 캔버스 -->
             <canvas id="canvas" width="400" height="400"></canvas>
