@@ -23,7 +23,8 @@ let model,
     pose0p = "정자세",
     pose1p = "다리 좁음",
     pose2p = "오른다리 벌어짐",
-    pose3p = "다리 구부러짐";
+    pose3p = "다리 구부러짐",
+    constraints = {facingMode: "environment"};
 
 function poseSelect() {
     $(document).ready(function () {
@@ -64,7 +65,7 @@ async function init() {
 
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(400, 400, flip); // width, height, flip
-    await webcam.setup({ facingMode: "environment" }); // request access to the webcam
+    await webcam.setup(); // request access to the webcam
     webcam.play();
     // 루프구문
     window.requestAnimationFrame(loop);
