@@ -65,7 +65,7 @@ async function init() {
 
     const flip = true; // whether to flip the webcam
     webcam = new tmPose.Webcam(400, 400, flip); // width, height, flip
-    await webcam.setup(); // request access to the webcam
+    await webcam.setup({ facingMode: "environment" }); // request access to the webcam
     webcam.play();
     // 루프구문
     window.requestAnimationFrame(loop);
